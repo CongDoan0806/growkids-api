@@ -1,0 +1,41 @@
+#!/bin/sh
+
+# Get current branch name
+branch=$(git rev-parse --abbrev-ref HEAD)
+
+# Skip validation for main branches and special cases
+if [[ $branch == "main" || $branch == "dev" || $branch == "init-codebase" ]]; then
+  exit 0
+fi
+
+# Define valid branch name pattern
+valid_pattern="^(feat|fix|docs|style|refactor|test|chore|perf|ci|build|revert)\/[a-z0-9-]+$"
+
+# Check if branch name matches pattern
+if [[ $branch =~ $valid_pattern ]]; then
+  exit 0
+else
+  echo "❌ Invalid branch name: $branch"
+  echo ""
+  echo "Branch name must follow the pattern: type/description"
+  echo ""
+  echo "Valid types:"
+  echo "  feat/     - New features"
+  echo "  fix/      - Bug fixes"
+  echo "  docs/     - Documentation updates"
+  echo "  style/    - Code formatting"
+  echo "  refactor/ - Code refactoring"
+  echo "  test/     - Adding tests"
+  echo "  chore/    - Maintenance tasks"
+  echo "  perf/     - Performance improvements"
+  echo "  ci/       - CI/CD changes"
+  echo "  build/    - Build system changes"
+  echo "  revert/   - Revert previous commits"
+  echo ""
+  echo "Examples:"
+  echo "  feat/user-authentication"
+  echo "  fix/login-validation"
+  echo "  docs/api-documentation"
+  echo ""
+  exit 1
+fi
