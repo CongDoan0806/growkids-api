@@ -21,8 +21,6 @@ describe('AppController (e2e)', () => {
   });
 
   it('/ (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/')
-      .expect(404); // No route handler for root path
+    return request(app.getHttpServer()).get('/').expect(404); // No route handler for root path
   });
 });
