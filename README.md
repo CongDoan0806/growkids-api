@@ -31,6 +31,19 @@
 $ npm install
 ```
 
+## Docker Quick Start
+
+```bash
+# Build and run with Docker
+$ docker-compose up --build
+
+# Run in background
+$ docker-compose up -d --build
+
+# Stop the application
+$ docker-compose down
+```
+
 ## Compile and run the project
 
 ```bash
