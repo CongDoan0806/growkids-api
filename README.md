@@ -27,19 +27,9 @@
 
 ## Development Setup
 
-### 1. Start database with Docker Compose
+### Docker Development (Recommended)
 
-```bash
-$ docker compose up -d
-```
-
-### 2. Install dependencies
-
-```bash
-$ npm install
-```
-
-### 3. Setup environment variables
+1. **Setup environment variables**
 
 ```bash
 $ cp .env.example .env
@@ -47,19 +37,54 @@ $ cp .env.example .env
 # DATABASE_URL="postgresql://postgres:password@postgres:5432/growkids_db?schema=public"
 ```
 
-### 4. Run database migrations
+2. **Start application and database**
+
+```bash
+$ docker compose up -d --build
+```
+
+3. **Run database migrations**
+
+```bash
+$ docker compose exec api npx prisma migrate dev
+```
+
+4. **Generate Prisma client**
+
+```bash
+$ docker compose exec api npx prisma generate
+```
+
+> Note: All Prisma commands must be executed inside the `api` container when using Docker.
+
+### Local Development
+
+1. **Install dependencies**
+
+```bash
+$ npm install
+```
+
+2. **Setup environment variables**
+
+```bash
+$ cp .env.example .env
+# Update .env file for local development
+```
+
+3. **Run database migrations**
 
 ```bash
 $ npx prisma migrate dev
 ```
 
-### 5. Generate Prisma client
+4. **Generate Prisma client**
 
 ```bash
 $ npx prisma generate
 ```
 
-### 6. Start application
+5. **Start application**
 
 ```bash
 $ npm run start:dev
@@ -68,10 +93,13 @@ $ npm run start:dev
 ### Database Management
 
 ```bash
-# View database in browser
+# View database in browser (for Docker setup)
+$ docker compose exec api npx prisma studio
+
+# Or for local development
 $ npm run prisma:studio
 
-# Stop everything
+# Stop Docker containers
 $ docker compose down
 ```
 
