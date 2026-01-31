@@ -15,7 +15,7 @@ RUN npm prune --production
 FROM node:20-alpine AS production
 WORKDIR /app
 
-RUN apk add --no-cache ca-certificates
+RUN apk add --no-cache ca-certificates curl
 
 RUN addgroup -S app && adduser -S app -G app
 
