@@ -8,8 +8,8 @@ if [[ $branch == "main" || $branch == "dev" || $branch == "init-codebase" ]]; th
   exit 0
 fi
 
-# Define valid branch name pattern
-valid_pattern="^(feat|fix|docs|style|refactor|test|chore|perf|ci|build|revert)\/[a-z0-9-]+$"
+# Define valid branch name pattern - now allows parentheses and ticket numbers
+valid_pattern="^(feat|fix|docs|style|refactor|test|chore|perf|ci|build|revert)(\([A-Z]+-[0-9]+\))?\/[a-z0-9-]+$"
 
 # Check if branch name matches pattern
 if [[ $branch =~ $valid_pattern ]]; then
@@ -17,7 +17,7 @@ if [[ $branch =~ $valid_pattern ]]; then
 else
   echo "❌ Invalid branch name: $branch"
   echo ""
-  echo "Branch name must follow the pattern: type/description"
+  echo "Branch name must follow the pattern: type(TICKET)/description or type/description"
   echo ""
   echo "Valid types:"
   echo "  feat/     - New features"
@@ -34,7 +34,8 @@ else
   echo ""
   echo "Examples:"
   echo "  feat/user-authentication"
-  echo "  fix/login-validation"
+  echo "  feat(GK-37)/login-api"
+  echo "  fix(JIRA-123)/validation-bug"
   echo "  docs/api-documentation"
   echo ""
   exit 1
