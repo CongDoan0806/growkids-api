@@ -1,0 +1,37 @@
+import {
+  IsArray,
+  IsUUID,
+  IsString,
+  Matches,
+  ValidateNested,
+  IsOptional,
+} from 'class-validator';
+import { Type } from 'class-transformer';
+
+export class TimeBlockDto {
+  @IsString()
+  activity_type: string;
+
+  @Matches(/^([01]\d|2[0-3]):?([0-5]\d)$/, {
+    message: 'Thời gian phải là định dạng HH:mm',
+  })
+  start_time: string;
+
+  @Matches(/^([01]\d|2[0-3]):?([0-5]\d)$/, {
+    message: 'Thời gian phải là định dạng HH:mm',
+  })
+  end_time: string;
+
+  @IsString()
+  @IsOptional()
+  description?: string;
+}
+
+export class ScheduleDto {
+  @IsUUID()
+  child_id: string;
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => TimeBlockDto)
+  time_blocks: TimeBlockDto[];
+}

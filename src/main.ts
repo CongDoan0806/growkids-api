@@ -11,10 +11,12 @@ async function bootstrap() {
       instance: winstonLogger,
     }),
   });
-
+  app.enableCors();
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalInterceptors(new LoggingInterceptor());
   app.setGlobalPrefix('api/v1');
-  await app.listen(process.env.PORT || 3000);
+  const port = process.env.PORT || 3000;
+  await app.listen(port, '0.0.0.0');
+  console.log(`Application is running on: http://localhost:${port}/api/v1`);
 }
 bootstrap();
