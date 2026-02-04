@@ -4,6 +4,7 @@ import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { AuthResponseDto } from './dto/auth-response.dto';
+import { RegisterDto } from './dto/register.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -32,5 +33,14 @@ export class AuthController {
     @Body() dto: RefreshTokenDto,
   ): Promise<{ message: string; success: boolean }> {
     return this.authService.removeRefreshToken(dto.refreshToken);
+  }
+
+  @Post('register')
+  async register(@Body() dto: RegisterDto): Promise<{
+    success: boolean;
+    message: string;
+    data: { id: string; fullName: string; email: string };
+  }> {
+    return this.authService.register(dto.fullName, dto.email, dto.password);
   }
 }
