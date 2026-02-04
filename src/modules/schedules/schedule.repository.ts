@@ -8,11 +8,11 @@ import { ScheduleDto } from './dto/schedule.dto';
 export class ScheduleRepository {
   constructor(private prisma: PrismaService) {}
 
-  async saveFullSchedule(dto: ScheduleDto) {
+  async saveFullSchedule(childId: string, dto: ScheduleDto) {
     return this.prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       const routine = await tx.routines.create({
         data: {
-          child_id: dto.child_id,
+          child_id: childId,
           routine_name: 'AI Conversation Schedule',
           is_active: true,
         },

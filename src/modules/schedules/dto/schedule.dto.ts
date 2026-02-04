@@ -1,6 +1,5 @@
 import {
   IsArray,
-  IsUUID,
   IsString,
   Matches,
   ValidateNested,
@@ -28,8 +27,6 @@ export class TimeBlockDto {
 }
 
 export class ScheduleDto {
-  @IsUUID()
-  child_id: string;
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => TimeBlockDto)

@@ -6,10 +6,13 @@ import { ScheduleDto, TimeBlockDto } from './dto/schedule.dto';
 export class ScheduleService {
   constructor(private scheduleRepository: ScheduleRepository) {}
 
-  async setupSchedule(dto: ScheduleDto) {
+  async setupSchedule(childId: string, dto: ScheduleDto) {
     this.validateTimeBlocks(dto.time_blocks);
 
-    const routine = await this.scheduleRepository.saveFullSchedule(dto);
+    const routine = await this.scheduleRepository.saveFullSchedule(
+      childId,
+      dto,
+    );
 
     return {
       message: 'Schedule saved successfully',
