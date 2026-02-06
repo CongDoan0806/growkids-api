@@ -76,4 +76,35 @@ export class AuthService {
       throw new UnauthorizedException('Invalid refresh token');
     }
   }
+
+  async register(
+    fullName: string,
+    email: string,
+    password: string,
+  ): Promise<{
+    success: boolean;
+    message: string;
+    data: { id: string; fullName: string; email: string };
+  }> {
+    const existingUser = await this.authRepository.findByEmail(email);
+    if (existingUser) {
+      throw new UnauthorizedException('User already exists');
+    }
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = await this.authRepository.createUser(
+      fullName,
+      email,
+      hashedPassword,
+    );
+    await this.authRepository.createChildren(user.id);
+    return {
+      success: true,
+      message: 'User registered successfully',
+      data: {
+        id: user.id,
+        fullName: user.fullName,
+        email: user.email,
+      },
+    };
+  }
 }
