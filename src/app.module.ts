@@ -4,11 +4,13 @@ import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { DatabaseModule } from './database/database.module';
 import { HealthController } from './health/health.controller';
 import { AuthModule } from './modules/auth/auth.module';
+import { GoldenTimeModule } from './modules/golden-time/golden-time.module';
 
 @Module({
   imports: [
     DatabaseModule,
     AuthModule,
+    GoldenTimeModule,
     ThrottlerModule.forRoot([
       {
         ttl: parseInt(process.env.RATE_LIMIT_TTL ?? '60000'),
