@@ -9,7 +9,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Request } from 'express';
-import { UserPayload } from '../schedules/dto/schedule.dto';
+import { UserPayload } from './dto/user.dto';
 import { ScheduleService } from './schedule.service';
 import { ScheduleDto } from './dto/schedule.dto';
 import * as jwt from 'jsonwebtoken';
