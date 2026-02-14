@@ -3,4 +3,5 @@ export interface GoldenTimeSlotDto {
   start_time: string;
   duration_minutes: number;
   context: string;
+  suggestions: string[];
 }

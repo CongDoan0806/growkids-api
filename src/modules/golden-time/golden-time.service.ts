@@ -38,7 +38,10 @@ export class GoldenTimeService {
     const generatedSlots =
       await this.generateGoldenTimeSlots(routineTimeBlocks);
 
-    return generatedSlots;
+    return {
+      routineId: routineTimeBlocks[0].routine_id,
+      slots: generatedSlots,
+    };
   }
 
   private async generateGoldenTimeSlots(
@@ -92,18 +95,35 @@ export class GoldenTimeService {
 
     return `Analyze the following daily routine and identify 3-5 optimal "golden time" slots for a child's development activities.
 
-    Daily Routine:
-    ${blocksInfo}
+      Daily Routine:
+      ${blocksInfo}
 
-    Requirements:
-    - Identify gaps between activities that are suitable for learning/play
-    - Vary slot types: "play", "learning", "creative", "physical", "quiet_time"
-    - Duration should be 15-60 minutes based on the available time gap
-    - Consider child's energy levels (morning = high energy, evening = calm activities)
-    - Avoid slots right before meals or sleep time
+      Requirements:
 
-    Return ONLY a JSON array with this structure (no markdown):
-    [{"slot_type": "play", "start_time": "14:00", "duration_minutes": 45, "context": "Active outdoor play after lunch"}]`;
+      - Identify gaps between activities that are suitable for learning/play
+      - Vary slot types: "play", "learning", "creative", "physical", "quiet_time"
+      - Duration should be 15-60 minutes based on the available time gap
+      - Consider child's energy levels (morning = high energy, evening = calm activities)
+      - Avoid slots right before meals or sleep time
+
+      For each golden time slot:
+      - Suggest EXACTLY 2 activities from this list ONLY:
+        ["Interactive story", "Mini song", "Object Scanning", "Voice Recording"]
+      - Suggestions must be relevant to the slot_type and context
+      - Do NOT invent new activity names
+      - Always return 2 items in the suggestions array
+
+      Return ONLY a JSON array with this structure (no markdown):
+
+      [
+        {
+          "slot_type": "play",
+          "start_time": "14:00",
+          "duration_minutes": 45,
+          "context": "Active outdoor play after lunch",
+          "suggestions": ["Interactive story", "Mini song"]
+        }
+      ]`;
   }
 
   async saveGoldenTimeSlots(
