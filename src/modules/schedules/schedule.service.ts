@@ -42,6 +42,7 @@ export class ScheduleService {
         routine_name: 'AI Conversation Schedule',
         is_active: true,
         created_by_ai: true,
+        updated_at: new Date(),
       });
 
       const blocksData = dto.time_blocks.map((block) => ({
