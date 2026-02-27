@@ -1,4 +1,5 @@
 import { IsString, IsOptional, IsArray } from 'class-validator';
+import { SuggestionItem } from '../ai/ai.service';
 export class ConversationDataDto {
   @IsString()
   user_id: string;
@@ -17,7 +18,7 @@ export class ConversationDataDto {
   phonetic?: string;
 
   @IsOptional()
-  suggestions?: string[];
+  suggestions?: SuggestionItem[];
 
   @IsOptional()
   @IsString()

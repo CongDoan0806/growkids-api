@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma.service';
 import { ConversationDataDto } from './dto/conversation-data.dto';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class ConversationRepository {
@@ -13,7 +14,7 @@ export class ConversationRepository {
         input_text: data.input_text,
         output_text: data.output_text,
         phonetic: data.phonetic,
-        suggestions: data.suggestions,
+        suggestions: data.suggestions as unknown as Prisma.JsonValue,
 
         users: {
           connect: {

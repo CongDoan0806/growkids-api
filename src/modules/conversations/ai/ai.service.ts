@@ -1,13 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import OpenAI from 'openai';
 
+export interface SuggestionItem {
+  english: string;
+  vietnamese: string;
+  phonetic: string;
+  audioBase64?: string;
+}
+
 export interface AIResult {
   vietnamese: string;
   english: string;
   phonetic: string;
   audioBase64?: string;
-  suggestions: string[];
-  suggestionAudioBase64?: string[];
+  suggestions: SuggestionItem[];
 }
 
 @Injectable()
@@ -24,7 +30,6 @@ export class AIService {
     const response = await this.openai.chat.completions.create({
       model: 'gpt-4o-mini',
       response_format: { type: 'json_object' },
-
       messages: [
         {
           role: 'system',
@@ -32,10 +37,17 @@ export class AIService {
 Return JSON format:
 {
     "vietnamese": "Dịch văn bản sang tiếng Việt",
-    "english": "Corrected or refined English version",
-    "phonetic": "IPA pronunciation of the English version",
-    "suggestions": ["3 short, fun alternative ways to say this for kids"]
+    "english": "Corrected English version",
+    "phonetic": "IPA pronunciation",
+    "suggestions": [
+      {
+        "english": "Alternative English sentence",
+        "vietnamese": "Nghĩa tiếng Việt tương ứng",
+        "phonetic": "IPA của câu này"
+      }
+    ]
 }
+Note: Suggestions should be short, fun and suitable for kids. Return exactly 3 suggestions.
 `,
         },
         {
@@ -46,15 +58,18 @@ Return JSON format:
     });
 
     const content = response.choices[0].message.content;
-
     const result = JSON.parse(content || '{}') as AIResult;
+
     result.audioBase64 = await this.generateSpeech(result.english);
 
-    if (result.suggestions && result.suggestions.length > 0) {
-      result.suggestionAudioBase64 = await Promise.all(
-        result.suggestions.map((msg) => this.generateSpeech(msg)),
+    if (result.suggestions && Array.isArray(result.suggestions)) {
+      await Promise.all(
+        result.suggestions.map(async (item) => {
+          item.audioBase64 = await this.generateSpeech(item.english);
+        }),
       );
     }
+
     return result;
   }
 

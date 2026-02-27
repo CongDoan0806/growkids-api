@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { AIResult, AIService } from './ai/ai.service';
+import { AIResult, AIService, SuggestionItem } from './ai/ai.service';
 import { CreateConversationDto } from './dto/create-conversation.dto';
 import { ConversationRepository } from './conversation.repository';
 
@@ -24,7 +24,7 @@ export class ConversationService {
 
       phonetic: aiResult.phonetic,
 
-      suggestions: aiResult.suggestions,
+      suggestions: aiResult.suggestions as unknown as SuggestionItem[],
     });
     return {
       conversation_id: conversation.conversation_id,
@@ -38,8 +38,6 @@ export class ConversationService {
       suggestions: aiResult.suggestions,
 
       audioBase64: aiResult.audioBase64,
-
-      suggestionsAudio: aiResult.suggestionAudioBase64,
     };
   }
   async getByUserId(user_id: string) {
