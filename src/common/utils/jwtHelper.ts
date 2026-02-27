@@ -14,6 +14,10 @@ export class JwtHelper {
     return this.jwtService.sign(payload);
   }
 
+  verifyAccessToken(token: string): JwtPayload {
+    return this.jwtService.verify(token);
+  }
+
   generateRefreshToken(payload: JwtPayload): string {
     return this.jwtService.sign(payload, {
       secret: process.env.JWT_REFRESH_SECRET,
