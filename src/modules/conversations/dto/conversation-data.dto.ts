@@ -1,4 +1,4 @@
-import { IsString, IsOptional } from 'class-validator';
+import { IsString, IsOptional, IsArray } from 'class-validator';
 export class ConversationDataDto {
   @IsString()
   user_id: string;
@@ -18,4 +18,13 @@ export class ConversationDataDto {
 
   @IsOptional()
   suggestions?: string[];
+
+  @IsOptional()
+  @IsString()
+  audioBase64?: string;
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  suggestionAudioBase64?: string[];
 }

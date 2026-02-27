@@ -14,7 +14,7 @@ export class VoiceService {
 
   async transcribe(audioBuffer: Buffer, user_id: string) {
     const file = await toFile(audioBuffer, 'audio.m4a', {
-      type: 'audio/wav',
+      type: 'audio/m4a',
     });
 
     const transcription = await this.openai.audio.transcriptions.create({
@@ -25,6 +25,13 @@ export class VoiceService {
 
     const text = transcription.text;
 
+    if (!text || text.trim() === '') {
+      return {
+        success: false,
+        message:
+          'Không nhận diện được văn bản từ audio. Vui lòng thử lại với một đoạn audio rõ ràng hơn.',
+      };
+    }
     const dto: CreateConversationDto = {
       user_id,
 
@@ -32,7 +39,11 @@ export class VoiceService {
 
       conversation_type: 'voice',
     };
-
-    return this.conversationService.processConversation(dto);
+    const result = await this.conversationService.processConversation(dto);
+    return {
+      success: true,
+      message: 'Success',
+      data: result,
+    };
   }
 }

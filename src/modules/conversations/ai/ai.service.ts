@@ -5,7 +5,9 @@ export interface AIResult {
   vietnamese: string;
   english: string;
   phonetic: string;
+  audioBase64?: string;
   suggestions: string[];
+  suggestionAudioBase64?: string[];
 }
 
 @Injectable()
@@ -45,6 +47,24 @@ Return JSON format:
 
     const content = response.choices[0].message.content;
 
-    return JSON.parse(content || '{}') as AIResult;
+    const result = JSON.parse(content || '{}') as AIResult;
+    result.audioBase64 = await this.generateSpeech(result.english);
+
+    if (result.suggestions && result.suggestions.length > 0) {
+      result.suggestionAudioBase64 = await Promise.all(
+        result.suggestions.map((msg) => this.generateSpeech(msg)),
+      );
+    }
+    return result;
+  }
+
+  async generateSpeech(text: string): Promise<string> {
+    const response = await this.openai.audio.speech.create({
+      model: 'tts-1',
+      input: text,
+      voice: 'shimmer',
+    });
+    const buffer = Buffer.from(await response.arrayBuffer());
+    return buffer.toString('base64');
   }
 }

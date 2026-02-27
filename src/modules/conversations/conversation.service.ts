@@ -36,6 +36,10 @@ export class ConversationService {
       phonetic: aiResult.phonetic,
 
       suggestions: aiResult.suggestions,
+
+      audioBase64: aiResult.audioBase64,
+
+      suggestionsAudio: aiResult.suggestionAudioBase64,
     };
   }
   async getByUserId(user_id: string) {
