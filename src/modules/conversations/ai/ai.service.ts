@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { OpenAiSharedService } from 'src/common/AI/aiService';
+import { OpenAiSharedService } from 'src/common/ai/ai.service';
 
 export interface SuggestionItem {
   english: string;

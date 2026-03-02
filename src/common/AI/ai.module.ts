@@ -1,5 +1,5 @@
 import { Global, Module } from '@nestjs/common';
-import { OpenAiSharedService } from './aiService';
+import { OpenAiSharedService } from './ai.service';
 
 @Global()
 @Module({

@@ -45,20 +45,6 @@ export class ConversationController {
     }
   }
 
-  @Get('my-history')
-  async getMyHistory(@Req() req: Request) {
-    const authHeader = req.headers.authorization;
-    if (!authHeader) throw new UnauthorizedException('Missing token');
-
-    const token = authHeader.replace('Bearer ', '');
-    try {
-      const payload = this.jwtHelper.verifyRefreshToken(token);
-      return this.conversationService.getByUserId(payload.sub);
-    } catch {
-      throw new UnauthorizedException('Invalid token');
-    }
-  }
-
   @Get(':id')
   async getById(@Param('id') id: string) {
     return this.conversationService.getById(id);

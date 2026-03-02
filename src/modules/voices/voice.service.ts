@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConversationService } from '../conversations/conversation.service';
 import { CreateConversationDto } from '../conversations/dto/create-conversation.dto';
-import { OpenAiSharedService } from 'src/common/AI/aiService';
+import { OpenAiSharedService } from 'src/common/ai/ai.service';
 @Injectable()
 export class VoiceService {
   constructor(
