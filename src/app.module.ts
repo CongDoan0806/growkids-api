@@ -7,12 +7,17 @@ import { AuthModule } from './modules/auth/auth.module';
 import { VoiceModule } from './modules/voices/voice.module';
 import { AIModule } from './modules/conversations/ai/ai.module';
 
+import { GoldenTimeModule } from './modules/golden-time/golden-time.module';
+import { ScheduleModule } from './modules/schedules/schedule.module';
+
 @Module({
   imports: [
     DatabaseModule,
     AuthModule,
     VoiceModule,
     AIModule,
+    GoldenTimeModule,
+    ScheduleModule,
     ThrottlerModule.forRoot([
       {
         ttl: parseInt(process.env.RATE_LIMIT_TTL ?? '60000'),

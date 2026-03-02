@@ -51,6 +51,21 @@ model routines {
   golden_time_slots   golden_time_slots[]
   routine_time_blocks routine_time_blocks[]
   children            children              @relation(fields: [child_id], references: [child_id], onDelete: Cascade)
+  golden_time_slots golden_time_slots[]
+}
+
+model golden_time_slots {
+  slot_id          String       @id @default(uuid())
+  routine_id       String
+  slot_type        String
+  start_time       String
+  duration_minutes Int
+  context          String?
+  is_active        Boolean   @default(true)
+  created_at       DateTime  @default(now())
+  routine routines @relation(fields: [routine_id], references: [routine_id], onDelete: Cascade)
+
+  @@index([routine_id])
 }
 
 model golden_time_slots {
