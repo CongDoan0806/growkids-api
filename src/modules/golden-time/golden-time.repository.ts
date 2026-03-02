@@ -29,7 +29,7 @@ export class GoldenTimeRepository {
         start_time: startTime,
         duration_minutes: durationMinutes,
         context,
-      },
+      } as any,
     });
   }
 }
