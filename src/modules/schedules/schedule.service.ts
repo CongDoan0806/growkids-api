@@ -21,7 +21,7 @@ export class ScheduleService {
     const childId = child[0].child_id;
 
     const existedRoutine =
-      await this.scheduleRepository.findChildByUserId(childId);
+      await this.scheduleRepository.findActiveRoutine(childId);
     return { hasSchedule: !!existedRoutine };
   }
 

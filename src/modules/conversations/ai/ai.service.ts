@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import OpenAI from 'openai';
+import { OpenAiSharedService } from 'src/common/AI/aiService';
 
 export interface SuggestionItem {
   english: string;
@@ -18,68 +18,55 @@ export interface AIResult {
 
 @Injectable()
 export class AIService {
-  private openai: OpenAI;
-
-  constructor() {
-    this.openai = new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY,
-    });
-  }
+  constructor(private readonly openAiShared: OpenAiSharedService) {}
 
   async processText(text: string): Promise<AIResult> {
-    const response = await this.openai.chat.completions.create({
-      model: 'gpt-4o-mini',
-      response_format: { type: 'json_object' },
-      messages: [
-        {
-          role: 'system',
-          content: `
-Return JSON format:
-{
-    "vietnamese": "Dịch văn bản sang tiếng Việt",
-    "english": "Corrected English version",
-    "phonetic": "IPA pronunciation",
-    "suggestions": [
+    const systemPrompt = `
+      You are an expert linguistic educator for the "GrowKids" EdTech app. 
+      Your goal is to analyze the user's input and return a structured JSON object for language learning.
+
+      STRICT RULES:
+      1. "vietnamese": Translate the input into natural, child-friendly Vietnamese.
+      2. "english": Correct the user's input into standard English. If it's already correct, keep it.
+      3. "phonetic": Provide the EXACT International Phonetic Alphabet (IPA) for the "english" field. 
+        - DO NOT provide Vietnamese phonetics. 
+        - Example for "Hello": "/həˈləʊ/".
+      4. "suggestions": Provide exactly 3 alternative ways to say the same thing in English. 
+        - They must be short, fun, and suitable for children.
+        - Each suggestion must include its own "english", "vietnamese", and "phonetic" (IPA).
+
+      OUTPUT FORMAT (JSON ONLY):
       {
-        "english": "Alternative English sentence",
-        "vietnamese": "Nghĩa tiếng Việt tương ứng",
-        "phonetic": "IPA của câu này"
+        "vietnamese": "string",
+        "english": "string",
+        "phonetic": "string",
+        "suggestions": [
+          { "english": "string", "vietnamese": "string", "phonetic": "string" },
+          { "english": "string", "vietnamese": "string", "phonetic": "string" },
+          { "english": "string", "vietnamese": "string", "phonetic": "string" }
+        ]
       }
-    ]
-}
-Note: Suggestions should be short, fun and suitable for kids. Return exactly 3 suggestions.
-`,
-        },
-        {
-          role: 'user',
-          content: `Analyze this text: "${text}"`,
-        },
-      ],
-    });
 
-    const content = response.choices[0].message.content;
-    const result = JSON.parse(content || '{}') as AIResult;
+      Note: Ensure all IPA symbols are standard and accurate for the English language.
+      `;
 
-    result.audioBase64 = await this.generateSpeech(result.english);
+    const result = await this.openAiShared.generateJsonResponse<AIResult>(
+      systemPrompt,
+      `Analyze this text: "${text}"`,
+    );
+
+    result.audioBase64 = await this.openAiShared.generateSpeech(result.english);
 
     if (result.suggestions && Array.isArray(result.suggestions)) {
       await Promise.all(
         result.suggestions.map(async (item) => {
-          item.audioBase64 = await this.generateSpeech(item.english);
+          item.audioBase64 = await this.openAiShared.generateSpeech(
+            item.english,
+          );
         }),
       );
     }
 
     return result;
-  }
-
-  async generateSpeech(text: string): Promise<string> {
-    const response = await this.openai.audio.speech.create({
-      model: 'tts-1',
-      input: text,
-      voice: 'shimmer',
-    });
-    const buffer = Buffer.from(await response.arrayBuffer());
-    return buffer.toString('base64');
   }
 }
