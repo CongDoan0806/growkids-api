@@ -4,8 +4,6 @@ import {
   Matches,
   ValidateNested,
   IsOptional,
-  IsNumber,
-  IsEmail,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
@@ -33,20 +31,4 @@ export class ScheduleDto {
   @ValidateNested({ each: true })
   @Type(() => TimeBlockDto)
   time_blocks: TimeBlockDto[];
-}
-
-export class UserPayload {
-  @IsString()
-  sub: string; // ID người dùng (UUID)
-
-  @IsEmail()
-  email: string;
-
-  @IsOptional()
-  @IsNumber()
-  iat?: number;
-
-  @IsOptional()
-  @IsNumber()
-  exp?: number;
 }
