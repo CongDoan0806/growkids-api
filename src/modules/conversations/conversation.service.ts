@@ -11,32 +11,35 @@ export class ConversationService {
   ) {}
 
   async processConversation(dto: CreateConversationDto) {
+    if (!dto.input_text || dto.input_text.trim().length === 0) {
+      throw new Error('Input text cannot be empty');
+    }
+
     const aiResult: AIResult = await this.aiService.processText(dto.input_text);
+
+    if (!aiResult || !aiResult.english) {
+      throw new Error('Failed to process text with AI service');
+    }
 
     const conversation = await this.conversationRepository.createConversation({
       user_id: dto.user_id,
-
       conversation_type: dto.conversation_type ?? 'voice',
-
       input_text: dto.input_text,
-
       output_text: aiResult.english,
-
       phonetic: aiResult.phonetic,
-
       suggestions: aiResult.suggestions as unknown as SuggestionItem[],
     });
+
+    if (!conversation) {
+      throw new Error('Failed to save conversation to the database');
+    }
+
     return {
       conversation_id: conversation.conversation_id,
-
       input_text: dto.input_text,
-
       english: aiResult.english,
-
       phonetic: aiResult.phonetic,
-
       suggestions: aiResult.suggestions,
-
       audioBase64: aiResult.audioBase64,
     };
   }
