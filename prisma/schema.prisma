@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,11 +7,76 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id                  String   @id @default(uuid())
-  fullName            String   
-  email               String   @unique
-  password            String   
-  languagePreference  String?  
-  createdAt           DateTime @default(now()) 
+model users {
+  id                 String     @id @default(uuid())
+  fullName           String
+  email              String     @unique
+  password           String
+  languagePreference String?
+  refreshToken       String?
+  createdAt          DateTime   @default(now())
+  children           children[]
+  conversations     conversations[]
+}
+
+model children {
+  child_id   String     @id @default(uuid())
+  user_id    String
+  full_name  String     @db.VarChar
+  birth_date DateTime?  @db.Date
+  gender     String?    @db.VarChar
+  created_at DateTime   @default(now())
+  users      users      @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  routines   routines[]
+}
+
+model routine_time_blocks {
+  block_id      String   @id @default(uuid())
+  routine_id    String
+  activity_type String   @db.VarChar
+  start_time    String
+  end_time      String
+  description   String?  @db.VarChar
+  routines      routines @relation(fields: [routine_id], references: [routine_id], onDelete: Cascade)
+}
+
+model routines {
+  routine_id          String                @id @default(uuid())
+  child_id            String
+  routine_name        String                @db.VarChar
+  is_active           Boolean               @default(true)
+  created_by_ai       Boolean               @default(false)
+  created_at          DateTime              @default(now())
+  updated_at          DateTime
+  golden_time_slots   golden_time_slots[]
+  routine_time_blocks routine_time_blocks[]
+  children            children              @relation(fields: [child_id], references: [child_id], onDelete: Cascade)
+}
+
+
+model golden_time_slots {
+  slot_id          String   @id
+  routine_id       String
+  slot_type        String
+  start_time       String
+  duration_minutes Int
+  context          String?
+  is_active        Boolean  @default(true)
+  created_at       DateTime @default(now())
+  routinea         routines @relation(fields: [routine_id], references: [routine_id], onDelete: Cascade)
+
+  @@index([routine_id])
+}
+
+model conversations{
+  conversation_id String  @id @default(uuid())
+  user_id String
+  conversation_type String
+  input_text String 
+  output_text String? 
+  phonetic String?
+  suggestions Json?
+  created_at DateTime @default(now())
+
+  users      users      @relation(fields: [user_id], references: [id], onDelete: Cascade)
 }
