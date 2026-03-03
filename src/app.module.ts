@@ -10,6 +10,7 @@ import { AIModule } from './modules/conversations/ai/ai.module';
 import { GoldenTimeModule } from './modules/golden-time/golden-time.module';
 import { ScheduleModule } from './modules/schedules/schedule.module';
 import { AIShareModule } from './common/ai/ai.module';
+import { StoryModule } from './modules/experiences/story/story.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { AIShareModule } from './common/ai/ai.module';
     GoldenTimeModule,
     ScheduleModule,
     AIShareModule,
+    StoryModule,
     ThrottlerModule.forRoot([
       {
         ttl: parseInt(process.env.RATE_LIMIT_TTL ?? '60000'),
