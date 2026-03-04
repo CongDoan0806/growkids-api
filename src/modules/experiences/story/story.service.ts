@@ -79,4 +79,12 @@ export class StoryService {
     this.logger.log(`Story created successfully: ${story.story_id}`);
     return story;
   }
+  async getStories() {
+    try {
+      return await this.storyRepository.getStories();
+    } catch (error) {
+      this.logger.error('Error occurred while fetching stories', error);
+      throw error;
+    }
+  }
 }

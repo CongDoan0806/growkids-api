@@ -38,4 +38,9 @@ export class StoryRepository {
       });
     });
   }
+  async getStories() {
+    return await this.prisma.stories.findMany({
+      include: { story_segments: true },
+    });
+  }
 }
