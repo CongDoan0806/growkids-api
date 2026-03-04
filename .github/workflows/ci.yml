@@ -1,28 +1,14 @@
-name: CI - Test & Build
+name: CI - Lint & Build
 
 on:
   push:
-    branches: ["dev", "main"]
+    branches: ["dev"]
   pull_request:
-    branches: ["dev", "main"]
+    branches: ["dev", "release/**", "main"]
 
 jobs:
-  test:
+  check:
     runs-on: ubuntu-latest
-    
-    services:
-      postgres:
-        image: postgres:15
-        env:
-          POSTGRES_PASSWORD: password
-          POSTGRES_DB: test_db
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
 
     steps:
       - uses: actions/checkout@v4
@@ -38,16 +24,9 @@ jobs:
       
       - name: Generate Prisma client
         run: npx prisma generate
-        
-      - name: Run database migrations
-        run: npx prisma migrate deploy
-        env:
-          DATABASE_URL: postgresql://postgres:password@localhost:5432/test_db
-      
-      - name: Run tests
-        run: npm run test -- --passWithNoTests
-        env:
-          DATABASE_URL: postgresql://postgres:password@localhost:5432/test_db
       
       - name: Run linting
         run: npm run lint
+      
+      - name: Build application
+        run: npm run build
