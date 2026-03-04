@@ -18,14 +18,51 @@ npm install
 
 ## Development Workflow
 
-### 1. Branch Naming
+### 1. Git Workflow
 
+**Branch Strategy:**
+
+- `dev` - Development branch (default)
+- `release/vX.Y.Z` - Release branches for QA testing
+- `main` - Production branch
 - `feat/feature-name` - New features
 - `fix/bug-description` - Bug fixes
 - `docs/update-description` - Documentation updates
 - `refactor/component-name` - Code refactoring
 
-### 2. Commit Messages
+**Release Process:**
+
+```bash
+# 1. Create release branch from dev
+git checkout dev
+git pull
+git checkout -b release/v1.2.0
+git push origin release/v1.2.0
+# → Auto build & deploy to QA
+
+# 2. Tester tests on QA environment
+
+# 3. Fix bugs on release branch
+git commit -am "fix: bug description"
+git push
+# → Auto redeploy to QA
+
+# 4. After QA approval, merge to main
+git checkout main
+git pull
+git merge release/v1.2.0
+git push
+# → Auto deploy to Production
+
+# 5. Sync back to dev
+git checkout dev
+git merge main
+git push
+```
+
+### 2. Branch Naming
+
+### 3. Commit Messages
 
 We use [Conventional Commits](https://www.conventionalcommits.org/) with required scope:
 
@@ -58,13 +95,13 @@ test(auth): add unit tests for service
 chore(deps): update dependencies
 ```
 
-### 3. Code Standards
+### 4. Code Standards
 
 - **ESLint**: Code will be automatically linted before commit
 - **Prettier**: Code formatting is enforced
 - **TypeScript**: Strict typing required
 
-### 4. Testing
+### 5. Testing
 
 ```bash
 # Run unit tests
