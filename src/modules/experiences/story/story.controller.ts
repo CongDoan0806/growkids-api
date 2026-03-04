@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards, Get } from '@nestjs/common';
 import { StoryService } from './story.service';
 import { StoryPayloadDto } from './dto/story-payload.dto';
 import { JwtAuthGuard } from '../../../common/guards/jwt-auth.guard';
@@ -17,5 +17,9 @@ export class StoryController {
       dto.type,
       dto.prompt,
     );
+  }
+  @Get()
+  getAllStories() {
+    return this.storyService.getStories();
   }
 }
