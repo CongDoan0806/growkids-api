@@ -6,7 +6,7 @@ import { AiService } from './ai/ai.service';
 import { PrismaService } from '../../../database/prisma.service';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from 'src/database/database.module';
-import { AIShareModule } from '../../../common/AI/ai.module';
+import { AIShareModule } from '../../../common/ai/ai.module';
 import { CloudinaryModule } from '../../../common/cloudinary/cloudinary.module';
 import { JwtAuthGuard } from '../../../common/guards/jwt-auth.guard';
 import { JwtHelper } from '../../../common/utils/jwtHelper';

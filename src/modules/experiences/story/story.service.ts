@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { StoryRepository } from './story.repository';
 import { AiService } from './ai/ai.service';
-import { OpenAiSharedService } from '../../../common/AI/ai.service';
+import { OpenAiSharedService } from '../../../common/ai/ai.service';
 import { CloudinaryService } from '../../../common/cloudinary/cloudinary.service';
 
 @Injectable()
