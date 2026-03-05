@@ -11,6 +11,7 @@ import { GoldenTimeModule } from './modules/golden-time/golden-time.module';
 import { ScheduleModule } from './modules/schedules/schedule.module';
 import { AIShareModule } from './common/ai/ai.module';
 import { StoryModule } from './modules/experiences/story/story.module';
+import { ObjectScanningModule } from './modules/object-scanning/object-scanning.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { StoryModule } from './modules/experiences/story/story.module';
     ScheduleModule,
     AIShareModule,
     StoryModule,
+    ObjectScanningModule,
     ThrottlerModule.forRoot([
       {
         ttl: parseInt(process.env.RATE_LIMIT_TTL ?? '60000'),

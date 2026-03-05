@@ -29,6 +29,7 @@ model children {
   users      users      @relation(fields: [user_id], references: [id], onDelete: Cascade)
   routines   routines[]
   learning_logs learning_logs[]
+  object_recognition_logs object_recognition_logs[]
 }
 
 model routine_time_blocks {
@@ -133,4 +134,16 @@ model story_segments {
   stories          stories  @relation(fields: [story_id], references: [story_id], onDelete: Cascade)
 
   @@index([story_id])
+}
+
+model object_recognition_logs {
+  recognition_id Int      @id @default(autoincrement())
+  child_id       String
+  detected_object String   @db.VarChar
+  created_at     DateTime @default(now())
+
+
+  children       children @relation(fields: [child_id], references: [child_id], onDelete: Cascade)
+
+  @@index([child_id])
 }
