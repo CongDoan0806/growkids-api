@@ -12,6 +12,7 @@ import { ScheduleModule } from './modules/schedules/schedule.module';
 import { AIShareModule } from './common/ai/ai.module';
 import { StoryModule } from './modules/experiences/story/story.module';
 import { ObjectScanningModule } from './modules/object-scanning/object-scanning.module';
+import { MiniSongModule } from './modules/experiences/mini-song/mini-song.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { ObjectScanningModule } from './modules/object-scanning/object-scanning.
     ScheduleModule,
     AIShareModule,
     StoryModule,
+    MiniSongModule,
     ObjectScanningModule,
     ThrottlerModule.forRoot([
       {

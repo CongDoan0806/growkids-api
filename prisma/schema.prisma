@@ -87,7 +87,7 @@ model conversations {
 model learning_logs {
   learning_log_id        Int                 @id @default(autoincrement())
   child_id               String
-  mini_song_id           Int?
+  mini_song_id           String?
   story_id               Int?
   slot_id                String?
   progress_percent       Int?
@@ -99,9 +99,11 @@ model learning_logs {
   last_accessed_at       DateTime            @default(now())
   children               children            @relation(fields: [child_id], references: [child_id], onDelete: Cascade)
   golden_time_slots      golden_time_slots?  @relation(fields: [slot_id], references: [slot_id], onDelete: SetNull)
+  mini_songs             mini_songs?         @relation(fields: [mini_song_id], references: [mini_song_id], onDelete: SetNull)
   stories                stories?            @relation(fields: [story_id], references: [story_id], onDelete: SetNull)
 
   @@index([child_id])
+  @@index([mini_song_id])
   @@index([slot_id])
   @@index([story_id])
 }
@@ -146,4 +148,30 @@ model object_recognition_logs {
   children       children @relation(fields: [child_id], references: [child_id], onDelete: Cascade)
 
   @@index([child_id])
+}
+
+model mini_songs {
+  mini_song_id  String          @id @default(uuid())
+  title         String          @db.VarChar(255)
+  thumbnail     String?         @db.VarChar(500)
+  duration      Float?
+  views         Int          @default(0)
+  video_url     String?         @db.VarChar(500)
+  category      String?
+  created_at    DateTime        @default(now())
+  song_lyrics   song_lyrics[]
+  learning_logs learning_logs[]
+
+  @@unique([title])
+}
+
+model song_lyrics {
+  id           String     @id @default(uuid())
+  song_id      String
+  line_order   Int
+  lyric_text   String?    @db.Text
+  phonetic     String?    @db.Text
+  mini_songs   mini_songs @relation(fields: [song_id], references: [mini_song_id], onDelete: Cascade)
+
+  @@index([song_id])
 }
