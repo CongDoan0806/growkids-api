@@ -56,7 +56,7 @@ model routines {
 }
 
 model golden_time_slots {
-  slot_id          String          @id
+  slot_id          String          @id @default(uuid())
   routine_id       String
   slot_type        String
   start_time       String
@@ -64,7 +64,7 @@ model golden_time_slots {
   context          String?
   is_active        Boolean         @default(true)
   created_at       DateTime        @default(now())
-  routinea         routines        @relation(fields: [routine_id], references: [routine_id], onDelete: Cascade)
+  routine         routines        @relation(fields: [routine_id], references: [routine_id], onDelete: Cascade)
   learning_logs    learning_logs[]
 
   @@index([routine_id])
@@ -171,6 +171,7 @@ model song_lyrics {
   line_order   Int
   lyric_text   String?    @db.Text
   phonetic     String?    @db.Text
+  start_time   Float?
   mini_songs   mini_songs @relation(fields: [song_id], references: [mini_song_id], onDelete: Cascade)
 
   @@index([song_id])
