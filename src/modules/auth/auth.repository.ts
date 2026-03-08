@@ -6,9 +6,10 @@ import { PrismaService } from 'src/database/prisma.service';
 export class AuthRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  findByEmail(email: string): Promise<users | null> {
+  findByEmail(email: string) {
     return this.prisma.users.findUnique({
       where: { email },
+      include: { children: true },
     });
   }
   updateRefreshToken(userId: string, refreshToken: string): Promise<users> {

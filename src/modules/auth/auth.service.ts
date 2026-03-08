@@ -35,6 +35,7 @@ export class AuthService {
     return {
       accessToken,
       refreshToken,
+      childId: user.children?.[0]?.child_id || null,
     };
   }
 
