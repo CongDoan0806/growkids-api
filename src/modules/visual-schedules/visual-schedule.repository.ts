@@ -16,7 +16,7 @@ export class ScheduleRepository {
     return this.prisma.golden_time_slots.findMany({
       where: {
         is_active: true,
-        routinea: { child_id: childId },
+        routines: { child_id: childId },
       },
       orderBy: { start_time: 'asc' },
     });
