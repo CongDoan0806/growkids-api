@@ -1,3 +1,4 @@
+// src/modules/visual-schedule/visual-schedule.repository.ts
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma.service';
 
@@ -16,13 +17,13 @@ export class ScheduleRepository {
     return this.prisma.golden_time_slots.findMany({
       where: {
         is_active: true,
-        routines: { child_id: childId },
+        routine: { child_id: childId },
       },
       orderBy: { start_time: 'asc' },
     });
   }
 
-  async getSumSpentTimeForAllSlots(childId: string, date: Date) {
+  async getSumSpentTimeBySlots(childId: string, date: Date) {
     const startOfDay = new Date(date);
     startOfDay.setHours(0, 0, 0, 0);
 
@@ -37,6 +38,8 @@ export class ScheduleRepository {
           gte: startOfDay,
           lte: endOfDay,
         },
+        slot_id: { not: null },
+        OR: [{ mini_song_id: { not: null } }, { story_id: { not: null } }],
       },
       _sum: {
         time_spent_seconds: true,

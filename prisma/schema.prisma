@@ -56,15 +56,16 @@ model routines {
 }
 
 model golden_time_slots {
-  slot_id          String          @id
+  slot_id          String          @id @default(uuid())
   routine_id       String
   slot_type        String
   start_time       String
   duration_minutes Int
   context          String?
+  suggestions      Json?
   is_active        Boolean         @default(true)
   created_at       DateTime        @default(now())
-  routines         routines        @relation(fields: [routine_id], references: [routine_id], onDelete: Cascade)
+  routine       routines        @relation(fields: [routine_id], references: [routine_id], onDelete: Cascade)
   learning_logs    learning_logs[]
 
   @@index([routine_id])

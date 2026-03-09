@@ -1,32 +1,27 @@
+// src/modules/visual-schedule/visual-schedule.service.ts
 import { Injectable } from '@nestjs/common';
 import { ScheduleRepository } from './visual-schedule.repository';
-import {
-  DailyScheduleResponseDto,
-  ScheduleItemDto,
-} from './dto/visual-schedule.dto';
 
 @Injectable()
 export class ScheduleService {
   constructor(private readonly repo: ScheduleRepository) {}
 
-  async getDailySchedule(userId: string): Promise<DailyScheduleResponseDto> {
+  async getDailySchedule(userId: string) {
     const childData = await this.repo.findChildByUserId(userId);
+    if (!childData) return { total_progress: 0, schedules: [] };
 
-    if (!childData || !childData.child_id) {
-      return { total_progress: 0, schedules: [] };
-    }
-
-    const childId = childData.child_id;
-    const slots = await this.repo.getActiveSlots(childId);
     const now = new Date();
-    const logsSummary = await this.repo.getSumSpentTimeForAllSlots(
-      childId,
+    const slots = await this.repo.getActiveSlots(childData.child_id);
+    const logsSummary = await this.repo.getSumSpentTimeBySlots(
+      childData.child_id,
       now,
     );
-    const schedules: ScheduleItemDto[] = slots.map((slot) => {
+
+    const schedules = slots.map((slot) => {
       const logEntry = logsSummary.find((l) => l.slot_id === slot.slot_id);
       const spentSeconds = logEntry?._sum?.time_spent_seconds || 0;
       const targetSeconds = slot.duration_minutes * 60;
+
       const percent = Math.min(
         Math.round((spentSeconds / targetSeconds) * 100),
         100,
@@ -39,7 +34,7 @@ export class ScheduleService {
           slot.start_time,
           slot.duration_minutes,
         ),
-        activity_type: slot.context || 'Học tập',
+        activity_type: slot.context || 'Learning',
         target_seconds: targetSeconds,
         spent_seconds: spentSeconds,
         progress_percent: percent,
@@ -67,7 +62,7 @@ export class ScheduleService {
     duration: number,
     percent: number,
     now: Date,
-  ): any {
+  ): string {
     const [hours, minutes] = startStr.split(':').map(Number);
     const startTime = new Date();
     startTime.setHours(hours, minutes, 0, 0);
