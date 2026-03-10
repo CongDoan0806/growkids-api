@@ -62,7 +62,6 @@ model golden_time_slots {
   start_time       String
   duration_minutes Int
   context          String?
-  suggestions      Json?
   is_active        Boolean         @default(true)
   created_at       DateTime        @default(now())
   routine       routines        @relation(fields: [routine_id], references: [routine_id], onDelete: Cascade)
