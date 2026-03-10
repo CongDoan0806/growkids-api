@@ -37,6 +37,11 @@ export class MiniSongRepository {
             line_order: 'asc',
           },
         },
+        questions: {
+          include: {
+            images: true,
+          },
+        },
       },
     });
   }
