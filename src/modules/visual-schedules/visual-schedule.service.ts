@@ -1,4 +1,3 @@
-// src/modules/visual-schedule/visual-schedule.service.ts
 import { Injectable } from '@nestjs/common';
 import { ScheduleRepository } from './visual-schedule.repository';
 

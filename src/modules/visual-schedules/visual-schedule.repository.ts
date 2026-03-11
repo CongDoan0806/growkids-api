@@ -1,4 +1,3 @@
-// src/modules/visual-schedule/visual-schedule.repository.ts
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma.service';
 

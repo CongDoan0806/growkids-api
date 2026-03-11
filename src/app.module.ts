@@ -14,6 +14,7 @@ import { StoryModule } from './modules/experiences/story/story.module';
 import { ObjectScanningModule } from './modules/object-scanning/object-scanning.module';
 import { MiniSongModule } from './modules/experiences/mini-song/mini-song.module';
 import { VisualScheduleModule } from './modules/visual-schedules/visual-schedule.module';
+import { FlexibleScheduleModule } from './modules/flexible-schedule-suggest/flexible-schedule.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { VisualScheduleModule } from './modules/visual-schedules/visual-schedule
     MiniSongModule,
     ObjectScanningModule,
     VisualScheduleModule,
+    FlexibleScheduleModule,
     ThrottlerModule.forRoot([
       {
         ttl: parseInt(process.env.RATE_LIMIT_TTL ?? '60000'),
