@@ -162,13 +162,13 @@ model mini_songs {
 }
 
 model song_lyrics {
-  id         String     @id @default(uuid())
-  song_id    String
-  line_order Int
-  lyric_text String?
-  phonetic   String?
-  start_time Float?
-  mini_songs mini_songs @relation(fields: [song_id], references: [mini_song_id], onDelete: Cascade)
+  id           String     @id @default(uuid())
+  song_id      String
+  line_order   Int
+  lyric_text   String?    @db.Text
+  phonetic     String?    @db.Text
+  start_time   Float?
+  mini_songs   mini_songs @relation(fields: [song_id], references: [mini_song_id], onDelete: Cascade)
 
   @@index([song_id])
 }
@@ -196,29 +196,30 @@ model levels {
   sentences  sentences[]
 }
 
-model sentences {
-  sentence_id   String    @id
-  topic_id      String
-  level_id      String
-  child_id      String?
-  sentence_text String
-  meaning       String
-  phonetic      String
-  audio_url     String?   @db.VarChar
-  created_at    DateTime  @default(now())
-  children      children? @relation(fields: [child_id], references: [child_id], onDelete: Cascade)
-  levels        levels    @relation(fields: [level_id], references: [level_id], onDelete: Cascade)
-  topics        topics    @relation(fields: [topic_id], references: [topic_id], onDelete: Cascade)
-
-  @@index([child_id])
-  @@index([level_id])
-  @@index([topic_id])
+model topics {
+  topic_id   String     @id @default(uuid())
+  topic_name String     @db.VarChar
+  icon       String?    @db.VarChar
+  created_at DateTime   @default(now())
+  sentences  sentences[]
 }
 
-model topics {
-  topic_id   String      @id
-  topic_name String      @db.VarChar
-  icon       String?     @db.VarChar
-  created_at DateTime    @default(now())
-  sentences  sentences[]
+model sentences {
+  sentence_id       String   @id @default(uuid())
+  topic_id          String
+  level_id          String
+  child_id          String?
+  sentence_text     String   @db.Text
+  meaning           String   @db.Text
+  phonetic          String   @db.Text
+  audio_url         String?  @db.VarChar
+  created_at        DateTime @default(now())
+  
+  topics   topics    @relation(fields: [topic_id], references: [topic_id], onDelete: Cascade)
+  levels   levels    @relation(fields: [level_id], references: [level_id], onDelete: Cascade)
+  children children? @relation(fields: [child_id], references: [child_id], onDelete: Cascade)
+
+  @@index([topic_id])
+  @@index([level_id])
+  @@index([child_id])
 }
