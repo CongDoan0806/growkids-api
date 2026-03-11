@@ -1,6 +1,8 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common';
 import { FlexibleScheduleService } from './flexible-schedule.service';
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('flexible-schedule')
 export class FlexibleScheduleController {
   constructor(private readonly service: FlexibleScheduleService) {}

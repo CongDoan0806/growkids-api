@@ -5,9 +5,10 @@ import { FlexibleScheduleService } from './flexible-schedule.service';
 import { FlexibleScheduleRepository } from './flexible-schedule.repository';
 import { FlexibleAiService } from './ai/ai.service';
 import { PrismaService } from 'src/database/prisma.service';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
-  imports: [ConfigModule],
+  imports: [AuthModule, ConfigModule],
   controllers: [FlexibleScheduleController],
   providers: [
     FlexibleScheduleService,
