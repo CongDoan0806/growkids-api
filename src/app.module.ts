@@ -14,6 +14,7 @@ import { StoryModule } from './modules/experiences/story/story.module';
 import { ObjectScanningModule } from './modules/object-scanning/object-scanning.module';
 import { MiniSongModule } from './modules/experiences/mini-song/mini-song.module';
 import { VisualScheduleModule } from './modules/visual-schedules/visual-schedule.module';
+import { FlexibleScheduleModule } from './modules/flexible-schedule-suggest/flexible-schedule.module';
 import { SentenceLibraryModule } from './modules/sentence-library/sentence-library.module';
 
 @Module({
@@ -29,6 +30,7 @@ import { SentenceLibraryModule } from './modules/sentence-library/sentence-libra
     MiniSongModule,
     ObjectScanningModule,
     VisualScheduleModule,
+    FlexibleScheduleModule,
     SentenceLibraryModule,
     ThrottlerModule.forRoot([
       {
