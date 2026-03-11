@@ -1116,9 +1116,97 @@ async function main() {
     }),
   ]);
 
+  const topics = await Promise.all([
+    prisma.topics.upsert({
+      where: { topic_id: '1' },
+      update: {},
+      create: {
+        topic_name: 'Animals',
+        icon: '🐾',
+      },
+    }),
+    prisma.topics.upsert({
+      where: { topic_id: '2' },
+      update: {},
+      create: {
+        topic_name: 'Colors',
+        icon: '🎨',
+      },
+    }),
+    prisma.topics.upsert({
+      where: { topic_id: '3' },
+      update: {},
+      create: {
+        topic_name: 'Family',
+        icon: '👨👩👧👦',
+      },
+    }),
+  ]);
+
+  const levels = await Promise.all([
+    prisma.levels.upsert({
+      where: { level_id: '1' },
+      update: {},
+      create: {
+        level_name: 'Easy',
+      },
+    }),
+    prisma.levels.upsert({
+      where: { level_id: '2' },
+      update: {},
+      create: {
+        level_name: 'Medium',
+      },
+    }),
+    prisma.levels.upsert({
+      where: { level_id: '3' },
+      update: {},
+      create: {
+        level_name: 'Advanced',
+      },
+    }),
+  ]);
+
+  // Seed sentences
+  const sentences = await Promise.all([
+    prisma.sentences.create({
+      data: {
+        topic_id: topics[0].topic_id,
+        level_id: levels[0].level_id,
+        sentence_text: 'The cat is sleeping.',
+        meaning: 'Con mèo đang ngủ.',
+        phonetic: '/ðə kæt ɪz ˈsliːpɪŋ/',
+        audio_url: 'https://example.com/audio1.mp3',
+      },
+    }),
+    prisma.sentences.create({
+      data: {
+        topic_id: topics[1].topic_id,
+        level_id: levels[0].level_id,
+        sentence_text: 'The apple is red.',
+        meaning: 'Quả táo màu đỏ.',
+        phonetic: '/ðə ˈæpəl ɪz rɛd/',
+        audio_url: 'https://example.com/audio2.mp3',
+      },
+    }),
+    prisma.sentences.create({
+      data: {
+        topic_id: topics[2].topic_id,
+        level_id: levels[1].level_id,
+        sentence_text: 'My mother loves me.',
+        meaning: 'Mẹ tôi yêu tôi.',
+        phonetic: '/maɪ ˈmʌðər lʌvz mi/',
+        audio_url: 'https://example.com/audio3.mp3',
+      },
+    }),
+  ]);
+
   console.log('Seed completed!');
   console.log(`Created ${users.length} users`);
   console.log(`Created ${miniSongs.length} mini songs`);
+  console.log(`Created ${topics.length} topics`);
+  console.log(`Created ${levels.length} levels`);
+  console.log(`Created ${sentences.length} sentences`);
 }
 
 main()
