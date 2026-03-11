@@ -14,6 +14,7 @@ model users {
   password           String
   languagePreference String?
   refreshToken       String?
+  fcmToken           String?
   createdAt          DateTime        @default(now())
   children           children[]
   conversations      conversations[]
@@ -64,6 +65,7 @@ model golden_time_slots {
   duration_minutes Int
   context          String?
   is_active        Boolean         @default(true)
+  is_notified      Boolean         @default(false)
   created_at       DateTime        @default(now())
   routine          routines        @relation(fields: [routine_id], references: [routine_id], onDelete: Cascade)
   learning_logs    learning_logs[]
