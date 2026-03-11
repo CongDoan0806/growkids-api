@@ -30,6 +30,7 @@ model children {
   learning_logs           learning_logs[]
   object_recognition_logs object_recognition_logs[]
   routines                routines[]
+  sentences               sentences[]
 }
 
 model routine_time_blocks {
@@ -64,7 +65,7 @@ model golden_time_slots {
   context          String?
   is_active        Boolean         @default(true)
   created_at       DateTime        @default(now())
-  routine       routines        @relation(fields: [routine_id], references: [routine_id], onDelete: Cascade)
+  routine          routines        @relation(fields: [routine_id], references: [routine_id], onDelete: Cascade)
   learning_logs    learning_logs[]
 
   @@index([routine_id])
@@ -162,13 +163,13 @@ model mini_songs {
 }
 
 model song_lyrics {
-  id         String     @id @default(uuid())
-  song_id    String
-  line_order Int
-  lyric_text String?
-  phonetic   String?
-  start_time Float?
-  mini_songs mini_songs @relation(fields: [song_id], references: [mini_song_id], onDelete: Cascade)
+  id           String     @id @default(uuid())
+  song_id      String
+  line_order   Int
+  lyric_text   String?    @db.Text
+  phonetic     String?    @db.Text
+  start_time   Float?
+  mini_songs   mini_songs @relation(fields: [song_id], references: [mini_song_id], onDelete: Cascade)
 
   @@index([song_id])
 }
@@ -189,4 +190,38 @@ model question_images {
   is_correct  Boolean @default(false)
 
   question mini_song_questions @relation(fields: [question_id], references: [question_id], onDelete: Cascade)
+}
+
+model topics {
+  topic_id   String     @id @default(uuid())
+  topic_name String     @db.VarChar
+  icon       String?    @db.VarChar
+  created_at DateTime   @default(now())
+  sentences  sentences[]
+}
+
+model levels {
+  level_id   String     @id @default(uuid())
+  level_name String     @db.VarChar
+  sentences  sentences[]
+}
+
+model sentences {
+  sentence_id       String   @id @default(uuid())
+  topic_id          String
+  level_id          String
+  child_id          String?
+  sentence_text     String   @db.Text
+  meaning           String   @db.Text
+  phonetic          String   @db.Text
+  audio_url         String?  @db.VarChar
+  created_at        DateTime @default(now())
+  
+  topics   topics    @relation(fields: [topic_id], references: [topic_id], onDelete: Cascade)
+  levels   levels    @relation(fields: [level_id], references: [level_id], onDelete: Cascade)
+  children children? @relation(fields: [child_id], references: [child_id], onDelete: Cascade)
+
+  @@index([topic_id])
+  @@index([level_id])
+  @@index([child_id])
 }
