@@ -190,17 +190,17 @@ model question_images {
   question    mini_song_questions @relation(fields: [question_id], references: [question_id], onDelete: Cascade)
 }
 
-model levels {
-  level_id   String      @id
-  level_name String      @db.VarChar
-  sentences  sentences[]
-}
-
 model topics {
   topic_id   String     @id @default(uuid())
   topic_name String     @db.VarChar
   icon       String?    @db.VarChar
   created_at DateTime   @default(now())
+  sentences  sentences[]
+}
+
+model levels {
+  level_id   String     @id @default(uuid())
+  level_name String     @db.VarChar
   sentences  sentences[]
 }
 
