@@ -147,18 +147,18 @@ model object_recognition_logs {
 }
 
 model mini_songs {
-  mini_song_id         String          @id @default(uuid())
-  title                String          @unique @db.VarChar(255)
-  thumbnail            String?         @db.VarChar(500)
-  duration             Float?
-  views                Int             @default(0)
-  video_url            String?         @db.VarChar(500)
-  category             String?
-  created_at           DateTime        @default(now())
-  is_completed         Boolean         @default(false)
-  last_listen_position Float           @default(0)
-  learning_logs        learning_logs[]
-  song_lyrics          song_lyrics[]
+  mini_song_id  String          @id @default(uuid())
+  title         String          @db.VarChar(255)
+  thumbnail     String?         @db.VarChar(500)
+  duration      Float?
+  views         Int          @default(0)
+  video_url     String?         @db.VarChar(500)
+  category      String?
+  created_at    DateTime        @default(now())
+  song_lyrics   song_lyrics[]
+  learning_logs learning_logs[]
+  questions     mini_song_questions[] 
+  @@unique([title])
 }
 
 model song_lyrics {
@@ -171,4 +171,22 @@ model song_lyrics {
   mini_songs mini_songs @relation(fields: [song_id], references: [mini_song_id], onDelete: Cascade)
 
   @@index([song_id])
+}
+
+model mini_song_questions {
+  question_id   String   @id @default(uuid())
+  mini_song_id  String
+  vocabulary    String
+  start_time    Float
+  images        question_images[]
+  mini_song     mini_songs @relation(fields: [mini_song_id], references: [mini_song_id], onDelete: Cascade)
+}
+
+model question_images {
+  image_id    String  @id @default(uuid())
+  question_id String
+  image_url   String
+  is_correct  Boolean @default(false)
+
+  question mini_song_questions @relation(fields: [question_id], references: [question_id], onDelete: Cascade)
 }
