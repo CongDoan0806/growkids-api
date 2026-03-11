@@ -44,7 +44,6 @@ export class FlexibleScheduleService {
       where: { slot_id: slotId },
     });
     if (!oldSlot) throw new NotFoundException('Slot not found');
-
     const blocks = await this.prisma.routine_time_blocks.findMany({
       where: { routine_id: routineId },
     });
