@@ -15,7 +15,7 @@ import { MiniSongService } from './mini-song.service';
 export class MiniSongController {
   constructor(private readonly miniSongService: MiniSongService) {}
   @Get()
-  async getMiniSongs(@Param('childId') childId: string) {
+  async getMiniSongs(@Query('childId') childId: string) {
     return await this.miniSongService.getMiniSongs(childId);
   }
 

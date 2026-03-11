@@ -64,6 +64,178 @@ async function main() {
         video_url:
           'https://www.youtube.com/watch?v=QA48wTGbU7A&list=RDQA48wTGbU7A&start_radio=1',
         category: 'Body Parts',
+        questions: {
+          create: [
+            {
+              vocabulary: 'head',
+              start_time: 68,
+              images: {
+                create: [
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047022/head_qza134.jpg',
+                    is_correct: true,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047021/toes_scckcm.jpg',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047022/nose_yr6otg.webp',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047023/knees_naucdj.jpg',
+                    is_correct: false,
+                  },
+                ],
+              },
+            },
+            {
+              vocabulary: 'shoulders',
+              start_time: 80,
+              images: {
+                create: [
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047022/nose_yr6otg.webp',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047023/knees_naucdj.jpg',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047020/shoulders_fboh0a.png',
+                    is_correct: true,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047022/head_qza134.jpg',
+                    is_correct: false,
+                  },
+                ],
+              },
+            },
+            {
+              vocabulary: 'knees',
+              start_time: 100,
+              images: {
+                create: [
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047021/toes_scckcm.jpg',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047022/head_qza134.jpg',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047022/nose_yr6otg.webp',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047023/knees_naucdj.jpg',
+                    is_correct: true,
+                  },
+                ],
+              },
+            },
+            {
+              vocabulary: 'toes',
+              start_time: 129,
+              images: {
+                create: [
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047023/knees_naucdj.jpg',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047021/toes_scckcm.jpg',
+                    is_correct: true,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047020/shoulders_fboh0a.png', //shoulders
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047021/eyes_iuffyf.jpg',
+                    is_correct: false,
+                  },
+                ],
+              },
+            },
+            {
+              vocabulary: 'eyes',
+              start_time: 135,
+              images: {
+                create: [
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047022/head_qza134.jpg',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047023/knees_naucdj.jpg',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047021/eyes_iuffyf.jpg',
+                    is_correct: true,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047020/shoulders_fboh0a.png',
+                    is_correct: false,
+                  },
+                ],
+              },
+            },
+            {
+              vocabulary: 'nose',
+              start_time: 145,
+              images: {
+                create: [
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047022/nose_yr6otg.webp',
+                    is_correct: true,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047021/eyes_iuffyf.jpg',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047020/shoulders_fboh0a.png',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047023/knees_naucdj.jpg',
+                    is_correct: false,
+                  },
+                ],
+              },
+            },
+          ],
+        },
         song_lyrics: {
           create: [
             {
@@ -207,6 +379,150 @@ async function main() {
         video_url:
           'https://www.youtube.com/watch?v=hqzvHfy-Ij0&list=RDhqzvHfy-Ij0&start_radio=1',
         category: 'Star and Space',
+        questions: {
+          create: [
+            {
+              vocabulary: 'star',
+              start_time: 27,
+              images: {
+                create: [
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047020/sky_owqvtj.jpg',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047021/diamond_hczgoy.avif',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047021/star_lmop2d.avif',
+                    is_correct: true,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047022/world_ovdr84.jpg',
+                    is_correct: false,
+                  },
+                ],
+              },
+            },
+            {
+              vocabulary: 'diamond',
+              start_time: 38,
+              images: {
+                create: [
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047021/diamond_hczgoy.avif',
+                    is_correct: true,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047021/star_lmop2d.avif',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047022/world_ovdr84.jpg',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047020/sky_owqvtj.jpg',
+                    is_correct: false,
+                  },
+                ],
+              },
+            },
+            {
+              vocabulary: 'sky',
+              start_time: 63,
+              images: {
+                create: [
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047022/twinkle_mo2oyp.jpg',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047021/star_lmop2d.avif',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047022/world_ovdr84.jpg',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047020/sky_owqvtj.jpg',
+                    is_correct: true,
+                  },
+                ],
+              },
+            },
+            {
+              vocabulary: 'world',
+              start_time: 129,
+              images: {
+                create: [
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047021/diamond_hczgoy.avif',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047021/star_lmop2d.avif',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047022/twinkle_mo2oyp.jpg',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047022/world_ovdr84.jpg',
+                    is_correct: true,
+                  },
+                ],
+              },
+            },
+            {
+              vocabulary: 'twinkle',
+              start_time: 144,
+              images: {
+                create: [
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047022/twinkle_mo2oyp.jpg',
+                    is_correct: true,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047020/sky_owqvtj.jpg',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047021/star_lmop2d.avif',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047022/world_ovdr84.jpg',
+                    is_correct: false,
+                  },
+                ],
+              },
+            },
+          ],
+        },
         song_lyrics: {
           create: [
             {
@@ -369,6 +685,150 @@ async function main() {
         video_url:
           'https://www.youtube.com/watch?v=tptPct-lBl4&list=RDtptPct-lBl4&start_radio=1',
         category: 'Feelings',
+        questions: {
+          create: [
+            {
+              vocabulary: 'sunshine',
+              start_time: 33,
+              images: {
+                create: [
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047021/happy_dlmics.avif',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047021/sunshine_tjp4fz.avif',
+                    is_correct: true,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047020/sky_owqvtj.jpg',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047022/world_ovdr84.jpg',
+                    is_correct: false,
+                  },
+                ],
+              },
+            },
+            {
+              vocabulary: 'sun',
+              start_time: 50,
+              images: {
+                create: [
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047021/sun_cug4ve.webp',
+                    is_correct: true,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047021/happy_dlmics.avif',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047023/sad_war628.jpg',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047021/sunshine_tjp4fz.avif',
+                    is_correct: false,
+                  },
+                ],
+              },
+            },
+            {
+              vocabulary: 'sky',
+              start_time: 80,
+              images: {
+                create: [
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047021/diamond_hczgoy.avif',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047021/sunshine_tjp4fz.avif',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047022/world_ovdr84.jpg',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047020/sky_owqvtj.jpg',
+                    is_correct: true,
+                  },
+                ],
+              },
+            },
+            {
+              vocabulary: 'happy',
+              start_time: 111,
+              images: {
+                create: [
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047021/happy_dlmics.avif',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047021/sun_cug4ve.webp',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047021/happy_dlmics.avif',
+                    is_correct: true,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047021/sunshine_tjp4fz.avif',
+                    is_correct: false,
+                  },
+                ],
+              },
+            },
+            {
+              vocabulary: 'love',
+              start_time: 133,
+              images: {
+                create: [
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047021/happy_dlmics.avif',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047021/happy_dlmics.avif',
+                    is_correct: true,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047020/sky_owqvtj.jpg',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047021/sun_cug4ve.webp',
+                    is_correct: false,
+                  },
+                ],
+              },
+            },
+          ],
+        },
         song_lyrics: {
           create: [
             {
@@ -460,6 +920,178 @@ async function main() {
         video_url:
           'https://www.youtube.com/watch?v=Wm4R8d0d8kU&list=RDWm4R8d0d8kU&start_radio=1',
         category: 'Funny',
+        questions: {
+          create: [
+            {
+              vocabulary: 'pig',
+              start_time: 38,
+              images: {
+                create: [
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047023/pig_c60wfl.jpg',
+                    is_correct: true,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047020/cow_kaqpan.jpg',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047020/chicken_zkls6v.webp',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047021/duck_tszuza.jpg',
+                    is_correct: false,
+                  },
+                ],
+              },
+            },
+            {
+              vocabulary: 'sheep',
+              start_time: 58,
+              images: {
+                create: [
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047022/twinkle_mo2oyp.jpg',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047020/sheep_o0rpwh.webp',
+                    is_correct: true,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047021/duck_tszuza.jpg',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047022/horse_qurbfr.jpg',
+                    is_correct: false,
+                  },
+                ],
+              },
+            },
+            {
+              vocabulary: 'cow',
+              start_time: 80,
+              images: {
+                create: [
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047020/shoulders_fboh0a.png',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047023/pig_c60wfl.jpg',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047021/hungry_bho5lm.jpg',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047020/cow_kaqpan.jpg',
+                    is_correct: true,
+                  },
+                ],
+              },
+            },
+            {
+              vocabulary: 'horse',
+              start_time: 100,
+              images: {
+                create: [
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047020/sheep_o0rpwh.webp',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047022/horse_qurbfr.jpg',
+                    is_correct: true,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047020/chicken_zkls6v.webp',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047020/chicken_zkls6v.webpg',
+                    is_correct: false,
+                  },
+                ],
+              },
+            },
+            {
+              vocabulary: 'duck',
+              start_time: 123,
+              images: {
+                create: [
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047023/pig_c60wfl.jpg',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047020/shoulders_fboh0a.png',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047020/cow_kaqpan.jpg',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047021/duck_tszuza.jpg',
+                    is_correct: true,
+                  },
+                ],
+              },
+            },
+            {
+              vocabulary: 'chicken',
+              start_time: 140,
+              images: {
+                create: [
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047020/chicken_zkls6v.webp',
+                    is_correct: true,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047023/pig_c60wfl.jpg',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047020/sheep_o0rpwh.webp',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047022/horse_qurbfr.jpg',
+                    is_correct: false,
+                  },
+                ],
+              },
+            },
+          ],
+        },
         song_lyrics: {
           create: [
             {
@@ -843,6 +1475,178 @@ async function main() {
         video_url:
           'https://www.youtube.com/watch?v=9hfsBgavsmc&list=RD9hfsBgavsmc&start_radio=1',
         category: 'Feelings',
+        questions: {
+          create: [
+            {
+              vocabulary: 'happy',
+              start_time: 28,
+              images: {
+                create: [
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047021/happy_dlmics.avif',
+                    is_correct: true,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047022/jump_zzrach.webp',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047021/sunshine_tjp4fz.avif',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047021/hungry_bho5lm.jpg',
+                    is_correct: false,
+                  },
+                ],
+              },
+            },
+            {
+              vocabulary: 'hungry',
+              start_time: 48,
+              images: {
+                create: [
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047022/hungry_x820gg.webp',
+                    is_correct: true,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047021/toes_scckcm.jpg',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047020/angry_keud1f.jpg',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047021/sunshine_tjp4fz.avif',
+                    is_correct: false,
+                  },
+                ],
+              },
+            },
+            {
+              vocabulary: 'tired',
+              start_time: 67,
+              images: {
+                create: [
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047022/jump_zzrach.webp',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047021/hungry_bho5lm.jpg',
+                    is_correct: true,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047020/cow_kaqpan.jpg',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047023/sad_war628.jpg',
+                    is_correct: false,
+                  },
+                ],
+              },
+            },
+            {
+              vocabulary: 'angry',
+              start_time: 85,
+              images: {
+                create: [
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047021/sunshine_tjp4fz.avif',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047020/angry_keud1f.jpg',
+                    is_correct: true,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047022/hungry_x820gg.webp',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047022/jump_zzrach.webp',
+                    is_correct: false,
+                  },
+                ],
+              },
+            },
+            {
+              vocabulary: 'sad',
+              start_time: 125,
+              images: {
+                create: [
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047021/toes_scckcm.jpg',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047020/angry_keud1f.jpg',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047020/shoulders_fboh0a.png',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047023/sad_war628.jpg',
+                    is_correct: true,
+                  },
+                ],
+              },
+            },
+            {
+              vocabulary: 'jump',
+              start_time: 105,
+              images: {
+                create: [
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047022/hungry_x820gg.webp',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047020/angry_keud1f.jpg',
+                    is_correct: false,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047022/jump_zzrach.webp',
+                    is_correct: true,
+                  },
+                  {
+                    image_url:
+                      'https://res.cloudinary.com/dprawkbjt/image/upload/v1773047021/hungry_bho5lm.jpg',
+                    is_correct: false,
+                  },
+                ],
+              },
+            },
+          ],
+        },
         song_lyrics: {
           create: [
             {
