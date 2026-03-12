@@ -18,6 +18,7 @@ model users {
   createdAt          DateTime        @default(now())
   children           children[]
   conversations      conversations[]
+  notifications      notifications[] 
 }
 
 model children {
@@ -226,4 +227,22 @@ model sentences {
   @@index([topic_id])
   @@index([level_id])
   @@index([child_id])
+}
+
+model notifications {
+  notification_id String   @id @default(uuid())
+  user_id         String
+  title           String
+  body            String
+  type            String  
+  data            Json?    
+  is_read         Boolean  @default(false)
+  sent_at         DateTime @default(now())
+  read_at         DateTime?
+  
+  user users @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  
+  @@index([user_id])
+  @@index([type])
+  @@index([sent_at])
 }

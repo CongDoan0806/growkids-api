@@ -65,13 +65,26 @@ export class NotificationService {
     if (!user.fcmToken) return;
 
     try {
+      const title = `Khung giờ vàng sẽ bắt đầu lúc ${slot.start_time}`;
+      const body = 'Hãy chuẩn bị cùng bé cho hoạt động học thú vị nhé!';
       await this.sendGoldenTimeNotification(
         user.fcmToken,
         slot.slot_type,
         slot.start_time,
         slot.routine.children.full_name,
       );
-
+      await this.notificationRepository.saveNotification(
+        user.id,
+        title,
+        body,
+        'golden_time',
+        {
+          slot_type: slot.slot_type,
+          start_time: slot.start_time,
+          child_name: slot.routine.children.full_name,
+          slot_id: slot.slot_id,
+        },
+      );
       await this.notificationRepository.markSlotAsNotified(slot.slot_id);
     } catch (error) {
       this.logger.error(`Error processing slot ${slot.slot_id}:`, error);
@@ -93,5 +106,21 @@ export class NotificationService {
       start_time: startTime,
       child_name: childName,
     });
+  }
+  async getUserNotifications(userId: string, limit = 20) {
+    return await this.notificationRepository.getUserNotifications(
+      userId,
+      limit,
+    );
+  }
+
+  async markNotificationAsRead(notificationId: string) {
+    return await this.notificationRepository.markNotificationAsRead(
+      notificationId,
+    );
+  }
+
+  async getUnreadCount(userId: string) {
+    return await this.notificationRepository.getUnreadNotificationCount(userId);
   }
 }

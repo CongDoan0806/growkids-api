@@ -1,4 +1,13 @@
-import { Controller, Post, Body, UseGuards, Request } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Get,
+  Body,
+  UseGuards,
+  Request,
+  Param,
+  Patch,
+} from '@nestjs/common';
 import { NotificationService } from './notification.service';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { UpdateFcmTokenDto } from './dto/update-fcm-token.dto';
@@ -17,5 +26,22 @@ export class NotificationController {
       req.user.sub,
       updateFcmTokenDto.fcmToken,
     );
+  }
+
+  @Get()
+  async getNotifications(@Request() req) {
+    return await this.notificationService.getUserNotifications(req.user.sub);
+  }
+
+  @Patch(':id/read')
+  async markNotificationAsRead(@Param('id') notificationId: string) {
+    return await this.notificationService.markNotificationAsRead(
+      notificationId,
+    );
+  }
+
+  @Get('unread-count')
+  async getUnreadCount(@Request() req) {
+    return await this.notificationService.getUnreadCount(req.user.sub);
   }
 }

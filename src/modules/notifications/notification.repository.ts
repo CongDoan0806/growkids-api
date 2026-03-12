@@ -46,4 +46,49 @@ export class NotificationRepository {
       data: { fcmToken },
     });
   }
+
+  async saveNotification(
+    userId: string,
+    title: string,
+    body: string,
+    type: string,
+    data?: any,
+  ) {
+    return await this.prisma.notifications.create({
+      data: {
+        user_id: userId,
+        title,
+        body,
+        type,
+        data: data || {},
+      },
+    });
+  }
+
+  async getUserNotifications(userId: string, limit = 20) {
+    return await this.prisma.notifications.findMany({
+      where: { user_id: userId },
+      orderBy: { sent_at: 'desc' },
+      take: limit,
+    });
+  }
+
+  async markNotificationAsRead(notificationId: string) {
+    return await this.prisma.notifications.update({
+      where: { notification_id: notificationId },
+      data: {
+        is_read: true,
+        read_at: new Date(),
+      },
+    });
+  }
+
+  async getUnreadNotificationCount(userId: string) {
+    return await this.prisma.notifications.count({
+      where: {
+        user_id: userId,
+        is_read: false,
+      },
+    });
+  }
 }
