@@ -14,9 +14,11 @@ model users {
   password           String
   languagePreference String?
   refreshToken       String?
+  fcmToken           String?
   createdAt          DateTime        @default(now())
   children           children[]
   conversations      conversations[]
+  notifications      notifications[] 
 }
 
 model children {
@@ -64,6 +66,7 @@ model golden_time_slots {
   duration_minutes Int
   context          String?
   is_active        Boolean         @default(true)
+  is_notified      Boolean         @default(false)
   created_at       DateTime        @default(now())
   routine          routines        @relation(fields: [routine_id], references: [routine_id], onDelete: Cascade)
   learning_logs    learning_logs[]
@@ -222,4 +225,22 @@ model sentences {
   @@index([topic_id])
   @@index([level_id])
   @@index([child_id])
+}
+
+model notifications {
+  notification_id String   @id @default(uuid())
+  user_id         String
+  title           String
+  body            String
+  type            String  
+  data            Json?    
+  is_read         Boolean  @default(false)
+  sent_at         DateTime @default(now())
+  read_at         DateTime?
+  
+  user users @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  
+  @@index([user_id])
+  @@index([type])
+  @@index([sent_at])
 }
