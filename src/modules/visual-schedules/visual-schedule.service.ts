@@ -16,6 +16,11 @@ export class ScheduleService {
       now,
     );
 
+    const routine_id = slots.length > 0 ? slots[0].routine.routine_id : '';
+    if (!routine_id) {
+      return { total_progress: 0, schedules: [] };
+    }
+
     const schedules = slots.map((slot) => {
       const logEntry = logsSummary.find((l) => l.slot_id === slot.slot_id);
       const spentSeconds = logEntry?._sum?.time_spent_seconds || 0;
@@ -28,6 +33,7 @@ export class ScheduleService {
 
       return {
         slot_id: slot.slot_id,
+        routine_id: slot.routine_id,
         title: slot.slot_type,
         time_range: this.calculateTimeRange(
           slot.start_time,
@@ -53,7 +59,7 @@ export class ScheduleService {
     const totalProgress =
       slots.length > 0 ? Math.round((completedCount / slots.length) * 100) : 0;
 
-    return { total_progress: totalProgress, schedules };
+    return { routine_id: routine_id, total_progress: totalProgress, schedules };
   }
 
   private determineStatus(

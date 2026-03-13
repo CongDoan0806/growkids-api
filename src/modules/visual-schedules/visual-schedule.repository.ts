@@ -18,6 +18,13 @@ export class ScheduleRepository {
         is_active: true,
         routine: { child_id: childId },
       },
+      include: {
+        routine: {
+          select: {
+            routine_id: true,
+          },
+        },
+      },
       orderBy: { start_time: 'asc' },
     });
   }
