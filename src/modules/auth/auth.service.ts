@@ -27,6 +27,7 @@ export class AuthService {
     const payload = {
       sub: user.id,
       email: user.email,
+      fullName: user.fullName,
     };
     const { accessToken, refreshToken } =
       this.jwtHelper.generateTokenPair(payload);
