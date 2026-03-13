@@ -91,4 +91,10 @@ export class NotificationRepository {
       },
     });
   }
+
+  async cleanupAllNotifications(userId: string) {
+    return await this.prisma.notifications.deleteMany({
+      where: { user_id: userId },
+    });
+  }
 }

@@ -65,8 +65,8 @@ export class NotificationService {
     if (!user.fcmToken) return;
 
     try {
-      const title = `Khung giờ vàng sẽ bắt đầu lúc ${slot.start_time}`;
-      const body = 'Hãy chuẩn bị cùng bé cho hoạt động học thú vị nhé!';
+      const title = `⏰ Khung giờ vàng sẽ bắt đầu lúc ${slot.start_time}`;
+      const body = 'Hãy chuẩn bị cùng bé cho hoạt động học thú vị nhé!✨';
       await this.sendGoldenTimeNotification(
         user.fcmToken,
         slot.slot_type,
@@ -97,8 +97,8 @@ export class NotificationService {
     startTime: string,
     childName: string,
   ) {
-    const title = `Khung giờ vàng sẽ bắt đầu lúc ${startTime} ⏰`;
-    const body = 'Hãy chuẩn bị cùng bé cho hoạt động học thú vị nhé!';
+    const title = `⏰ Khung giờ vàng sẽ bắt đầu lúc ${startTime} `;
+    const body = 'Hãy chuẩn bị cùng bé cho hoạt động học thú vị nhé!✨';
 
     await this.firebaseService.sendNotification(fcmToken, title, body, {
       type: 'golden_time',
@@ -122,5 +122,9 @@ export class NotificationService {
 
   async getUnreadCount(userId: string) {
     return await this.notificationRepository.getUnreadNotificationCount(userId);
+  }
+
+  async cleanupAllNotifications(userId: string) {
+    return await this.notificationRepository.cleanupAllNotifications(userId);
   }
 }

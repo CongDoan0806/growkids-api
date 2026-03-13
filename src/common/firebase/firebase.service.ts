@@ -1,23 +1,10 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
-import * as admin from 'firebase-admin';
+import { Injectable } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable()
-export class FirebaseService implements OnModuleInit {
-  private app: admin.app.App;
-
-  onModuleInit() {
-    if (!admin.apps.length) {
-      this.app = admin.initializeApp({
-        credential: admin.credential.cert({
-          projectId: process.env.FIREBASE_PROJECT_ID,
-          clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-          privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-        }),
-      });
-    } else {
-      this.app = admin.app();
-    }
-  }
+export class FirebaseService {
+  constructor(private readonly httpService: HttpService) {}
 
   async sendNotification(
     token: string,
@@ -26,13 +13,23 @@ export class FirebaseService implements OnModuleInit {
     data?: any,
   ) {
     const message = {
-      notification: { title, body },
+      to: token,
+      title,
+      body,
       data: data || {},
-      token,
     };
 
     try {
-      return await admin.messaging().send(message);
+      const response = await firstValueFrom(
+        this.httpService.post('https://exp.host/--/api/v2/push/send', message, {
+          headers: {
+            Accept: 'application/json',
+            'Accept-encoding': 'gzip, deflate',
+            'Content-Type': 'application/json',
+          },
+        }),
+      );
+      return response.data;
     } catch (error) {
       console.error('Error sending notification:', error);
       throw error;
@@ -45,14 +42,28 @@ export class FirebaseService implements OnModuleInit {
     body: string,
     data?: any,
   ) {
-    const message = {
-      notification: { title, body },
+    const messages = tokens.map((token) => ({
+      to: token,
+      title,
+      body,
       data: data || {},
-      tokens,
-    };
+    }));
 
     try {
-      return await admin.messaging().sendEachForMulticast(message);
+      const response = await firstValueFrom(
+        this.httpService.post(
+          'https://exp.host/--/api/v2/push/send',
+          messages,
+          {
+            headers: {
+              Accept: 'application/json',
+              'Accept-encoding': 'gzip, deflate',
+              'Content-Type': 'application/json',
+            },
+          },
+        ),
+      );
+      return response.data;
     } catch (error) {
       console.error('Error sending multicast:', error);
       throw error;

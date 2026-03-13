@@ -7,6 +7,7 @@ import {
   Request,
   Param,
   Patch,
+  Delete,
 } from '@nestjs/common';
 import { NotificationService } from './notification.service';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
@@ -43,5 +44,10 @@ export class NotificationController {
   @Get('unread-count')
   async getUnreadCount(@Request() req) {
     return await this.notificationService.getUnreadCount(req.user.sub);
+  }
+
+  @Delete('cleanup')
+  async cleanupAllNotifications(@Request() req) {
+    return await this.notificationService.cleanupAllNotifications(req.user.sub);
   }
 }
