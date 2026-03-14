@@ -38,13 +38,14 @@ export class SentenceLibraryService {
 
     const existingTopic =
       await this.sentenceLibraryRepository.findTopicByName(topic);
-
     const levels = await this.sentenceLibraryRepository.getLevels();
     const levelMap = {
       Easy: levels.find((l) => l.level_name === 'Easy')?.level_id,
       Medium: levels.find((l) => l.level_name === 'Medium')?.level_id,
       Advanced: levels.find((l) => l.level_name === 'Advanced')?.level_id,
     };
+
+    let createdSentences;
 
     if (existingTopic) {
       const existingCount =
@@ -59,10 +60,11 @@ export class SentenceLibraryService {
             existingTopic.topic_id,
             needed,
           );
-        return this.sentenceLibraryRepository.cloneSentencesForChild(
-          existingSentences,
-          childId,
-        );
+        createdSentences =
+          await this.sentenceLibraryRepository.cloneSentencesForChild(
+            existingSentences,
+            childId,
+          );
       } else {
         const needMore = needed - existingCount;
         const quantityPerLevel = Math.ceil(needMore / 3);
@@ -71,7 +73,6 @@ export class SentenceLibraryService {
           quantityPerLevel,
           goal,
         );
-
         const sentencesWithAudio = await this.processAudio(
           aiData.sentences,
           levelMap,
@@ -88,10 +89,11 @@ export class SentenceLibraryService {
             existingTopic.topic_id,
             existingCount,
           );
-        return this.sentenceLibraryRepository.cloneSentencesForChild(
-          existingSentences,
-          childId,
-        );
+        createdSentences =
+          await this.sentenceLibraryRepository.cloneSentencesForChild(
+            existingSentences,
+            childId,
+          );
       }
     } else {
       const aiData = await this.aiService.generateSentences(
@@ -99,22 +101,30 @@ export class SentenceLibraryService {
         quantity,
         goal,
       );
-
       const newTopic = await this.sentenceLibraryRepository.createTopic(
         aiData.topic,
       );
-
       const sentencesWithAudio = await this.processAudio(
         aiData.sentences,
         levelMap,
       );
 
-      return this.sentenceLibraryRepository.createSentences(
+      createdSentences = await this.sentenceLibraryRepository.createSentences(
         newTopic.topic_id,
         sentencesWithAudio,
         childId,
       );
     }
+
+    return {
+      success: true,
+      message: 'Sentences created successfully',
+      data: {
+        topic,
+        totalSentences: createdSentences.length,
+        sentences: createdSentences,
+      },
+    };
   }
 
   private async processAudio(sentences: any[], levelMap: any) {
