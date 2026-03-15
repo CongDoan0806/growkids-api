@@ -58,7 +58,8 @@ export class SentenceLibraryController {
   }
 
   @Post()
-  createSentence(@Body() dto: SentencePayloadDto) {
-    return this.sentenceLibraryService.createSentence(dto);
+  async createSentence(@Body() dto: SentencePayloadDto) {
+    const result = await this.sentenceLibraryService.createSentence(dto);
+    return result;
   }
 }

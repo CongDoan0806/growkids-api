@@ -21,9 +21,12 @@ export class SentenceLibraryRepository {
         topic_id: topicId,
         OR: [{ child_id: childId }, { child_id: null }],
       },
+      distinct: ['sentence_text'],
       include: { levels: true },
+      orderBy: { created_at: 'asc' },
     });
   }
+
   createSentence(
     data: {
       topic_id: string;
@@ -54,13 +57,13 @@ export class SentenceLibraryRepository {
 
   countSentencesByTopic(topicId: string) {
     return this.prisma.sentences.count({
-      where: { topic_id: topicId, child_id: null },
+      where: { topic_id: topicId },
     });
   }
 
   getSentencesByTopicId(topicId: string, limit: number) {
     return this.prisma.sentences.findMany({
-      where: { topic_id: topicId, child_id: null },
+      where: { topic_id: topicId },
       take: limit,
     });
   }
@@ -69,8 +72,8 @@ export class SentenceLibraryRepository {
     return this.prisma.topics.create({ data: topicData });
   }
 
-  createSentences(topicId: string, sentences: any[], childId: string) {
-    return this.prisma.sentences.createMany({
+  async createSentences(topicId: string, sentences: any[], childId: string) {
+    await this.prisma.sentences.createMany({
       data: sentences.map((s) => ({
         topic_id: topicId,
         level_id: s.level_id,
@@ -81,10 +84,25 @@ export class SentenceLibraryRepository {
         audio_url: s.audio_url,
       })),
     });
+
+    return this.prisma.sentences.findMany({
+      where: {
+        topic_id: topicId,
+        child_id: childId,
+      },
+      include: {
+        topics: true,
+        levels: true,
+      },
+      orderBy: { created_at: 'desc' },
+      take: sentences.length,
+    });
   }
 
-  cloneSentencesForChild(sentences: any[], childId: string) {
-    return this.prisma.sentences.createMany({
+  async cloneSentencesForChild(sentences: any[], childId: string) {
+    const beforeCreate = new Date();
+
+    await this.prisma.sentences.createMany({
       data: sentences.map((s) => ({
         topic_id: s.topic_id,
         level_id: s.level_id,
@@ -94,6 +112,20 @@ export class SentenceLibraryRepository {
         phonetic: s.phonetic,
         audio_url: s.audio_url,
       })),
+    });
+
+    return this.prisma.sentences.findMany({
+      where: {
+        child_id: childId,
+        created_at: {
+          gte: beforeCreate,
+        },
+      },
+      include: {
+        topics: true,
+        levels: true,
+      },
+      orderBy: { created_at: 'desc' },
     });
   }
 }
