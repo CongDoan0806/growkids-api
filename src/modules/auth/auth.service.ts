@@ -27,6 +27,7 @@ export class AuthService {
     const payload = {
       sub: user.id,
       email: user.email,
+      fullName: user.fullName,
     };
     const { accessToken, refreshToken } =
       this.jwtHelper.generateTokenPair(payload);
@@ -35,6 +36,7 @@ export class AuthService {
     return {
       accessToken,
       refreshToken,
+      childId: user.children?.[0]?.child_id || null,
     };
   }
 

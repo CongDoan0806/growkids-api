@@ -51,4 +51,13 @@ export class OpenAiSharedService {
     const buffer = Buffer.from(await response.arrayBuffer());
     return buffer.toString('base64');
   }
+  async generateImage(prompt: string): Promise<string> {
+    const response = await this.openai.images.generate({
+      model: 'gpt-image-1',
+      prompt: prompt,
+      size: '1024x1024',
+    });
+
+    return response.data[0].b64_json;
+  }
 }

@@ -1,0 +1,59 @@
+name: Release QA - Build & Deploy
+
+on:
+  push:
+    branches:
+      - 'release/**'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Generate Prisma client
+        run: npx prisma generate
+      
+      - name: Run linting
+        run: npm run lint
+      
+      - name: Build application
+        run: npm run build
+
+  deploy-qa:
+    needs: check
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Extract version from branch
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/heads/release/}" >> $GITHUB_OUTPUT
+
+      - name: Build Docker image
+        run: docker build -t doandocker/growkids-api:qa-${{ steps.version.outputs.VERSION }} -t doandocker/growkids-api:latest-qa .
+
+      - name: Push Docker images
+        run: |
+          docker push doandocker/growkids-api:qa-${{ steps.version.outputs.VERSION }}
+          docker push doandocker/growkids-api:latest-qa
+
+      - name: Deploy to QA
+        run: curl -X POST ${{ secrets.RENDER_QA_DEPLOY_HOOK }}

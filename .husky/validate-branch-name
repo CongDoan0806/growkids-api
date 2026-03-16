@@ -4,7 +4,7 @@
 branch=$(git rev-parse --abbrev-ref HEAD)
 
 # Skip validation for main branches and special cases
-if [[ $branch == "main" || $branch == "dev" || $branch == "init-codebase" ]]; then
+if [[ $branch == "main" || $branch == "dev" || $branch == "init-codebase" || $branch =~ ^release/ ]]; then
   exit 0
 fi
 

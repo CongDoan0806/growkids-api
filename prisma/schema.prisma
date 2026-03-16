@@ -8,26 +8,31 @@ datasource db {
 }
 
 model users {
-  id                 String     @id @default(uuid())
+  id                 String          @id @default(uuid())
   fullName           String
-  email              String     @unique
+  email              String          @unique
   password           String
   languagePreference String?
   refreshToken       String?
-  createdAt          DateTime   @default(now())
+  fcmToken           String?
+  createdAt          DateTime        @default(now())
   children           children[]
-  conversations     conversations[]
+  conversations      conversations[]
+  notifications      notifications[] 
 }
 
 model children {
-  child_id   String     @id @default(uuid())
-  user_id    String
-  full_name  String     @db.VarChar
-  birth_date DateTime?  @db.Date
-  gender     String?    @db.VarChar
-  created_at DateTime   @default(now())
-  users      users      @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  routines   routines[]
+  child_id                String                    @id @default(uuid())
+  user_id                 String
+  full_name               String                    @db.VarChar
+  birth_date              DateTime?                 @db.Date
+  gender                  String?                   @db.VarChar
+  created_at              DateTime                  @default(now())
+  users                   users                     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  learning_logs           learning_logs[]
+  object_recognition_logs object_recognition_logs[]
+  routines                routines[]
+  sentences               sentences[]
 }
 
 model routine_time_blocks {
@@ -53,30 +58,189 @@ model routines {
   children            children              @relation(fields: [child_id], references: [child_id], onDelete: Cascade)
 }
 
-
 model golden_time_slots {
-  slot_id          String   @id
+  slot_id          String          @id @default(uuid())
   routine_id       String
   slot_type        String
   start_time       String
   duration_minutes Int
   context          String?
-  is_active        Boolean  @default(true)
-  created_at       DateTime @default(now())
-  routinea         routines @relation(fields: [routine_id], references: [routine_id], onDelete: Cascade)
+  is_active        Boolean         @default(true)
+  is_notified      Boolean         @default(false)
+  created_at       DateTime        @default(now())
+  routine          routines        @relation(fields: [routine_id], references: [routine_id], onDelete: Cascade)
+  learning_logs    learning_logs[]
 
   @@index([routine_id])
 }
 
-model conversations{
-  conversation_id String  @id @default(uuid())
-  user_id String
+model conversations {
+  conversation_id   String   @id @default(uuid())
+  user_id           String
   conversation_type String
-  input_text String 
-  output_text String? 
-  phonetic String?
-  suggestions Json?
-  created_at DateTime @default(now())
+  input_text        String
+  output_text       String?
+  phonetic          String?
+  suggestions       Json?
+  created_at        DateTime @default(now())
+  users             users    @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
 
-  users      users      @relation(fields: [user_id], references: [id], onDelete: Cascade)
+model learning_logs {
+  learning_log_id       Int                @id @default(autoincrement())
+  child_id              String
+  mini_song_id          String?
+  story_id              Int?
+  slot_id               String?
+  progress_percent      Int?
+  time_spent_seconds    Int?
+  last_position_seconds Int?
+  is_completed          Boolean            @default(false)
+  started_at            DateTime           @default(now())
+  completed_at          DateTime?
+  last_accessed_at      DateTime           @default(now())
+  children              children           @relation(fields: [child_id], references: [child_id], onDelete: Cascade)
+  mini_songs            mini_songs?        @relation(fields: [mini_song_id], references: [mini_song_id])
+  golden_time_slots     golden_time_slots? @relation(fields: [slot_id], references: [slot_id])
+  stories               stories?           @relation(fields: [story_id], references: [story_id])
+
+  @@index([child_id])
+  @@index([mini_song_id])
+  @@index([slot_id])
+  @@index([story_id])
+}
+
+model stories {
+  story_id         Int              @id @default(autoincrement())
+  topic_id         Int?
+  title            String           @db.VarChar
+  age_min          Int?
+  age_max          Int?
+  duration_seconds Int?
+  cover_image_url  String?          @db.VarChar
+  is_active        Boolean          @default(true)
+  created_at       DateTime         @default(now())
+  learning_logs    learning_logs[]
+  story_segments   story_segments[]
+
+  @@index([topic_id])
+}
+
+model story_segments {
+  segment_id       Int      @id @default(autoincrement())
+  story_id         Int
+  segment_order    Int
+  content_text     String?
+  image_url        String?  @db.VarChar
+  audio_url        String?  @db.VarChar
+  interaction_type String?  @db.VarChar
+  created_at       DateTime @default(now())
+  stories          stories  @relation(fields: [story_id], references: [story_id], onDelete: Cascade)
+
+  @@index([story_id])
+}
+
+model object_recognition_logs {
+  recognition_id  Int      @id @default(autoincrement())
+  child_id        String
+  detected_object String   @db.VarChar
+  created_at      DateTime @default(now())
+  children        children @relation(fields: [child_id], references: [child_id], onDelete: Cascade)
+
+  @@index([child_id])
+}
+
+model mini_songs {
+  mini_song_id  String                @id @default(uuid())
+  title         String                @unique @db.VarChar(255)
+  thumbnail     String?               @db.VarChar(500)
+  duration      Float?
+  views         Int                   @default(0)
+  video_url     String?               @db.VarChar(500)
+  category      String?
+  created_at    DateTime              @default(now())
+  learning_logs learning_logs[]
+  questions     mini_song_questions[]
+  song_lyrics   song_lyrics[]
+}
+
+model song_lyrics {
+  id           String     @id @default(uuid())
+  song_id      String
+  line_order   Int
+  lyric_text   String?    @db.Text
+  phonetic     String?    @db.Text
+  start_time   Float?
+  mini_songs   mini_songs @relation(fields: [song_id], references: [mini_song_id], onDelete: Cascade)
+
+  @@index([song_id])
+}
+
+model mini_song_questions {
+  question_id  String            @id @default(uuid())
+  mini_song_id String
+  vocabulary   String
+  start_time   Float
+  mini_song    mini_songs        @relation(fields: [mini_song_id], references: [mini_song_id])
+  images       question_images[]
+}
+
+model question_images {
+  image_id    String              @id @default(uuid())
+  question_id String
+  image_url   String
+  is_correct  Boolean             @default(false)
+  question    mini_song_questions @relation(fields: [question_id], references: [question_id], onDelete: Cascade)
+}
+
+model topics {
+  topic_id   String     @id @default(uuid())
+  topic_name String     @db.VarChar
+  icon       String?    @db.VarChar
+  created_at DateTime   @default(now())
+  sentences  sentences[]
+}
+
+model levels {
+  level_id   String     @id @default(uuid())
+  level_name String     @db.VarChar
+  sentences  sentences[]
+}
+
+model sentences {
+  sentence_id       String   @id @default(uuid())
+  topic_id          String
+  level_id          String
+  child_id          String?
+  sentence_text     String   @db.Text
+  meaning           String   @db.Text
+  phonetic          String   @db.Text
+  audio_url         String?  @db.VarChar
+  created_at        DateTime @default(now())
+  
+  topics   topics    @relation(fields: [topic_id], references: [topic_id], onDelete: Cascade)
+  levels   levels    @relation(fields: [level_id], references: [level_id], onDelete: Cascade)
+  children children? @relation(fields: [child_id], references: [child_id], onDelete: Cascade)
+
+  @@index([topic_id])
+  @@index([level_id])
+  @@index([child_id])
+}
+
+model notifications {
+  notification_id String   @id @default(uuid())
+  user_id         String
+  title           String
+  body            String
+  type            String  
+  data            Json?    
+  is_read         Boolean  @default(false)
+  sent_at         DateTime @default(now())
+  read_at         DateTime?
+  
+  user users @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  
+  @@index([user_id])
+  @@index([type])
+  @@index([sent_at])
 }
