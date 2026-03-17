@@ -73,4 +73,111 @@ export class UserRepository {
       },
     });
   }
+
+  async getTotalSentencesByUserId(userId: string) {
+    return await this.prisma.sentences.count({
+      where: {
+        children: {
+          user_id: userId,
+        },
+      },
+    });
+  }
+
+  async getTotalSentencesByChildId(childId: string) {
+    return await this.prisma.sentences.count({
+      where: {
+        child_id: childId,
+      },
+    });
+  }
+
+  async getTotalConversationsByUserId(userId: string) {
+    return await this.prisma.conversations.count({
+      where: {
+        user_id: userId,
+      },
+    });
+  }
+
+  async getTotalSongsLearnedByUserId(userId: string) {
+    return await this.prisma.learning_logs.count({
+      where: {
+        children: {
+          user_id: userId,
+        },
+        mini_song_id: {
+          not: null,
+        },
+      },
+    });
+  }
+
+  async getTotalSongsLearnedByChildId(childId: string) {
+    return await this.prisma.learning_logs.count({
+      where: {
+        child_id: childId,
+        mini_song_id: {
+          not: null,
+        },
+      },
+    });
+  }
+
+  async getTotalStoriesLearnedByUserId(userId: string) {
+    return await this.prisma.learning_logs.count({
+      where: {
+        children: {
+          user_id: userId,
+        },
+        story_id: {
+          not: null,
+        },
+      },
+    });
+  }
+
+  async getTotalStoriesLearnedByChildId(childId: string) {
+    return await this.prisma.learning_logs.count({
+      where: {
+        child_id: childId,
+        story_id: {
+          not: null,
+        },
+      },
+    });
+  }
+
+  async getUserStatistics(userId: string) {
+    const [totalSentences, totalConversations, totalSongs, totalStories] =
+      await Promise.all([
+        this.getTotalSentencesByUserId(userId),
+        this.getTotalConversationsByUserId(userId),
+        this.getTotalSongsLearnedByUserId(userId),
+        this.getTotalStoriesLearnedByUserId(userId),
+      ]);
+
+    return {
+      totalSentences,
+      totalConversations,
+      totalSongs,
+      totalStories,
+      pronunciationScore: null,
+    };
+  }
+
+  async getChildStatistics(childId: string) {
+    const [totalSentences, totalSongs, totalStories] = await Promise.all([
+      this.getTotalSentencesByChildId(childId),
+      this.getTotalSongsLearnedByChildId(childId),
+      this.getTotalStoriesLearnedByChildId(childId),
+    ]);
+
+    return {
+      totalSentences,
+      totalSongs,
+      totalStories,
+      pronunciationScore: null,
+    };
+  }
 }

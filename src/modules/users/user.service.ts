@@ -12,7 +12,57 @@ export class UserService {
   ) {}
 
   async getInformationById(userId: string) {
-    return await this.userRepository.getInformationById(userId);
+    const userInfo = await this.userRepository.getInformationById(userId);
+
+    if (!userInfo) {
+      return null;
+    }
+
+    const [totalSentences, totalConversations, totalSongs, totalStories] =
+      await Promise.all([
+        this.userRepository.getTotalSentencesByUserId(userId),
+        this.userRepository.getTotalConversationsByUserId(userId),
+        this.userRepository.getTotalSongsLearnedByUserId(userId),
+        this.userRepository.getTotalStoriesLearnedByUserId(userId),
+      ]);
+
+    const childrenWithStats = await Promise.all(
+      (userInfo.children || []).map(async (child) => {
+        const [childSentences, childSongs, childStories] = await Promise.all([
+          this.userRepository.getTotalSentencesByChildId(child.child_id),
+          this.userRepository.getTotalSongsLearnedByChildId(child.child_id),
+          this.userRepository.getTotalStoriesLearnedByChildId(child.child_id),
+        ]);
+
+        return {
+          ...child,
+          statistics: {
+            totalSentences: childSentences,
+            totalSongs: childSongs,
+            totalStories: childStories,
+            pronunciationScore: null,
+          },
+        };
+      }),
+    );
+
+    return {
+      user: {
+        fullName: userInfo.fullName,
+        email: userInfo.email,
+        avatar_url: userInfo.avatar_url,
+        birth_date: userInfo.birth_date,
+        gender: userInfo.gender,
+      },
+      children: childrenWithStats,
+      statistics: {
+        totalSentences,
+        totalConversations,
+        totalSongs,
+        totalStories,
+        pronunciationScore: null,
+      },
+    };
   }
 
   async updateUserInformation(userId: string, user: UpdateUserPayloadDto) {
