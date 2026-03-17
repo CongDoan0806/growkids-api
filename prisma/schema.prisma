@@ -12,6 +12,9 @@ model users {
   fullName           String
   email              String          @unique
   password           String
+  avatar_url         String?         @db.VarChar(255)
+  gender             String?         @db.VarChar(10)
+  birth_date         DateTime?       @db.Date
   languagePreference String?
   refreshToken       String?
   fcmToken           String?
@@ -27,6 +30,7 @@ model children {
   full_name               String                    @db.VarChar
   birth_date              DateTime?                 @db.Date
   gender                  String?                   @db.VarChar
+  avatar_url              String?                   @db.VarChar(255)
   created_at              DateTime                  @default(now())
   users                   users                     @relation(fields: [user_id], references: [id], onDelete: Cascade)
   learning_logs           learning_logs[]
