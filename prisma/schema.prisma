@@ -14,11 +14,15 @@ model users {
   password           String
   languagePreference String?
   refreshToken       String?
-  fcmToken           String?
   createdAt          DateTime        @default(now())
+  fcmToken           String?
+  avatar_url         String?         @db.VarChar(255)
+  birth_date         DateTime?       @db.Date
+  gender             String?         @db.VarChar(10)
+  status             String           @default("active")
   children           children[]
   conversations      conversations[]
-  notifications      notifications[] 
+  notifications      notifications[]
 }
 
 model children {
@@ -28,6 +32,7 @@ model children {
   birth_date              DateTime?                 @db.Date
   gender                  String?                   @db.VarChar
   created_at              DateTime                  @default(now())
+  avatar_url              String?                   @db.VarChar(255)
   users                   users                     @relation(fields: [user_id], references: [id], onDelete: Cascade)
   learning_logs           learning_logs[]
   object_recognition_logs object_recognition_logs[]
@@ -66,8 +71,8 @@ model golden_time_slots {
   duration_minutes Int
   context          String?
   is_active        Boolean         @default(true)
-  is_notified      Boolean         @default(false)
   created_at       DateTime        @default(now())
+  is_notified      Boolean         @default(false)
   routine          routines        @relation(fields: [routine_id], references: [routine_id], onDelete: Cascade)
   learning_logs    learning_logs[]
 
@@ -165,13 +170,13 @@ model mini_songs {
 }
 
 model song_lyrics {
-  id           String     @id @default(uuid())
-  song_id      String
-  line_order   Int
-  lyric_text   String?    @db.Text
-  phonetic     String?    @db.Text
-  start_time   Float?
-  mini_songs   mini_songs @relation(fields: [song_id], references: [mini_song_id], onDelete: Cascade)
+  id         String     @id @default(uuid())
+  song_id    String
+  line_order Int
+  lyric_text String?
+  phonetic   String?
+  start_time Float?
+  mini_songs mini_songs @relation(fields: [song_id], references: [mini_song_id], onDelete: Cascade)
 
   @@index([song_id])
 }
@@ -194,33 +199,32 @@ model question_images {
 }
 
 model topics {
-  topic_id   String     @id @default(uuid())
-  topic_name String     @db.VarChar
-  icon       String?    @db.VarChar
-  created_at DateTime   @default(now())
+  topic_id   String      @id @default(uuid())
+  topic_name String      @db.VarChar
+  icon       String?     @db.VarChar
+  created_at DateTime    @default(now())
   sentences  sentences[]
 }
 
 model levels {
-  level_id   String     @id @default(uuid())
-  level_name String     @db.VarChar
+  level_id   String      @id @default(uuid())
+  level_name String      @db.VarChar
   sentences  sentences[]
 }
 
 model sentences {
-  sentence_id       String   @id @default(uuid())
-  topic_id          String
-  level_id          String
-  child_id          String?
-  sentence_text     String   @db.Text
-  meaning           String   @db.Text
-  phonetic          String   @db.Text
-  audio_url         String?  @db.VarChar
-  created_at        DateTime @default(now())
-  
-  topics   topics    @relation(fields: [topic_id], references: [topic_id], onDelete: Cascade)
-  levels   levels    @relation(fields: [level_id], references: [level_id], onDelete: Cascade)
-  children children? @relation(fields: [child_id], references: [child_id], onDelete: Cascade)
+  sentence_id   String    @id @default(uuid())
+  topic_id      String
+  level_id      String
+  child_id      String?
+  sentence_text String
+  meaning       String
+  phonetic      String
+  audio_url     String?   @db.VarChar
+  created_at    DateTime  @default(now())
+  children      children? @relation(fields: [child_id], references: [child_id], onDelete: Cascade)
+  levels        levels    @relation(fields: [level_id], references: [level_id], onDelete: Cascade)
+  topics        topics    @relation(fields: [topic_id], references: [topic_id], onDelete: Cascade)
 
   @@index([topic_id])
   @@index([level_id])
@@ -228,19 +232,29 @@ model sentences {
 }
 
 model notifications {
-  notification_id String   @id @default(uuid())
+  notification_id String    @id @default(uuid())
   user_id         String
   title           String
   body            String
-  type            String  
-  data            Json?    
-  is_read         Boolean  @default(false)
-  sent_at         DateTime @default(now())
+  type            String
+  data            Json?
+  is_read         Boolean   @default(false)
+  sent_at         DateTime  @default(now())
   read_at         DateTime?
-  
-  user users @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  
+  user            users     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
   @@index([user_id])
   @@index([type])
   @@index([sent_at])
+}
+
+model Admin {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  password     String
+  fullName     String
+  refreshToken String?
+  status       String   @default("ACTIVE")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
