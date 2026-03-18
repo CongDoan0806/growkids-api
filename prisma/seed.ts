@@ -8,6 +8,17 @@ async function main() {
 
   const hashedPassword = await bcrypt.hash('12345678', 10);
 
+  console.log('Seeding Admin...');
+  await prisma.admin.upsert({
+    where: { email: 'admin@growkids.com' },
+    update: {},
+    create: {
+      email: 'admin@growkids.com',
+      password: hashedPassword,
+      fullName: 'AdminGrowkid',
+      status: 'ACTIVE',
+    },
+  });
   const users = await Promise.all([
     prisma.users.upsert({
       where: { email: 'congdoan@gmail.com' },
