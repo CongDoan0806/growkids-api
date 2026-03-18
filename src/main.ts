@@ -5,8 +5,8 @@ import { winstonLogger } from './common/logger/winston.logger';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
-
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import * as bodyParser from 'body-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -14,6 +14,9 @@ async function bootstrap() {
       instance: winstonLogger,
     }),
   });
+
+  app.use(bodyParser.json({ limit: '10mb' }));
+  app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 
   app.enableCors();
 
