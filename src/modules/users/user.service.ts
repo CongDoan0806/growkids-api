@@ -175,4 +175,8 @@ export class UserService {
   async getUserStreakInfo(userId: string) {
     return await this.userRepository.getUserStreakInfo(userId);
   }
+
+  async countSongsAndStories() {
+    return await this.userRepository.countSongsAndStories();
+  }
 }

@@ -300,4 +300,16 @@ export class UserRepository {
       },
     });
   }
+
+  async countSongsAndStories() {
+    const [totalSongs, totalStories] = await Promise.all([
+      this.prisma.mini_songs.count(),
+      this.prisma.stories.count(),
+    ]);
+
+    return {
+      totalSongs,
+      totalStories,
+    };
+  }
 }

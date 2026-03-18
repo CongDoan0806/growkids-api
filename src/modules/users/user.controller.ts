@@ -59,4 +59,13 @@ export class UserController {
       data: result,
     };
   }
+
+  @Get('content-stats')
+  async getContentStats() {
+    const stats = await this.userService.countSongsAndStories();
+    return {
+      success: true,
+      data: stats,
+    };
+  }
 }
