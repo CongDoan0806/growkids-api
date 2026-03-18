@@ -17,7 +17,11 @@ export class AuthService {
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
     }
-
+    if (user.status === 'banned') {
+      throw new UnauthorizedException(
+        'Your account has been locked. Please contact the Admin.',
+      );
+    }
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
@@ -50,6 +54,11 @@ export class AuthService {
       const user = await this.authRepository.findByEmail(payload.email);
       if (!user || !user.refreshToken) {
         throw new UnauthorizedException('Invalid refresh token');
+      }
+      if (user.status === 'banned') {
+        throw new UnauthorizedException(
+          'The account has been locked and the session cannot be renewed.',
+        );
       }
       const isValidRefreshToken = await bcrypt.compare(
         refreshToken,
