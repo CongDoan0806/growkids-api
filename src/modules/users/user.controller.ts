@@ -36,4 +36,27 @@ export class UserController {
   ) {
     return await this.userService.updateChildInfomation(childId, child);
   }
+
+  @Get('daily-stats')
+  async getDailyStats(@Request() req) {
+    return await this.userService.getDailyLearningStats(req.user.sub);
+  }
+
+  @Get('streak')
+  async getUserStreak(@Request() req) {
+    const streakInfo = await this.userService.getUserStreakInfo(req.user.sub);
+    return {
+      success: true,
+      data: streakInfo,
+    };
+  }
+
+  @Post('streak')
+  async updateStreak(@Request() req) {
+    const result = await this.userService.updateUserStreak(req.user.sub);
+    return {
+      success: true,
+      data: result,
+    };
+  }
 }

@@ -180,4 +180,124 @@ export class UserRepository {
       pronunciationScore: null,
     };
   }
+
+  async findChildByIdAndUserId(childId: string, userId: string) {
+    return await this.prisma.children.findFirst({
+      where: {
+        child_id: childId,
+        user_id: userId,
+      },
+    });
+  }
+
+  async findChildByUserId(userId: string) {
+    return await this.prisma.children.findFirst({
+      where: { user_id: userId },
+    });
+  }
+
+  async getActiveSlotsByChildId(childId: string) {
+    return await this.prisma.golden_time_slots.findMany({
+      where: {
+        routine: {
+          child_id: childId,
+          is_active: true,
+        },
+        is_active: true,
+      },
+      include: {
+        routine: true,
+      },
+    });
+  }
+
+  async getLearningLogsByDateRange(
+    childId: string,
+    startDate: Date,
+    endDate: Date,
+  ) {
+    return await this.prisma.learning_logs.findMany({
+      where: {
+        child_id: childId,
+        started_at: {
+          gte: startDate,
+          lt: endDate,
+        },
+      },
+    });
+  }
+
+  async updateUserStreak(userId: string) {
+    const user = await this.prisma.users.findUnique({
+      where: { id: userId },
+      select: {
+        current_streak: true,
+        longest_streak: true,
+        last_active_date: true,
+      },
+    });
+
+    if (!user) return null;
+
+    const today = new Date();
+    const todayDate = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate(),
+    );
+
+    let newStreak = 1;
+    let newLongestStreak = user.longest_streak;
+
+    if (user.last_active_date) {
+      const lastActiveDate = new Date(user.last_active_date);
+      const lastActiveDateOnly = new Date(
+        lastActiveDate.getFullYear(),
+        lastActiveDate.getMonth(),
+        lastActiveDate.getDate(),
+      );
+
+      const daysDiff = Math.floor(
+        (todayDate.getTime() - lastActiveDateOnly.getTime()) /
+          (1000 * 60 * 60 * 24),
+      );
+
+      if (daysDiff === 0) {
+        return user;
+      } else if (daysDiff === 1) {
+        newStreak = user.current_streak + 1;
+      } else {
+        newStreak = 1;
+      }
+    }
+
+    if (newStreak > user.longest_streak) {
+      newLongestStreak = newStreak;
+    }
+
+    return await this.prisma.users.update({
+      where: { id: userId },
+      data: {
+        current_streak: newStreak,
+        longest_streak: newLongestStreak,
+        last_active_date: today,
+      },
+      select: {
+        current_streak: true,
+        longest_streak: true,
+        last_active_date: true,
+      },
+    });
+  }
+
+  async getUserStreakInfo(userId: string) {
+    return await this.prisma.users.findUnique({
+      where: { id: userId },
+      select: {
+        current_streak: true,
+        longest_streak: true,
+        last_active_date: true,
+      },
+    });
+  }
 }

@@ -18,6 +18,9 @@ model users {
   languagePreference String?
   refreshToken       String?
   fcmToken           String?
+  current_streak     Int             @default(0)
+  longest_streak     Int             @default(0)
+  last_active_date   DateTime?
   createdAt          DateTime        @default(now())
   children           children[]
   conversations      conversations[]
