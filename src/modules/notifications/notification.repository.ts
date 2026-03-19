@@ -97,4 +97,41 @@ export class NotificationRepository {
       where: { user_id: userId },
     });
   }
+
+  async findMissedGoldenTimeSlots() {
+    const now = new Date();
+    const currentTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000);
+
+    return await this.prisma.golden_time_slots.findMany({
+      where: {
+        start_time: { lt: currentTime },
+        is_active: true,
+        is_notified: true,
+        routine: {
+          is_active: true,
+        },
+      },
+      include: {
+        routine: {
+          include: {
+            children: {
+              include: {
+                users: true,
+              },
+            },
+          },
+        },
+        learning_logs: {
+          where: {
+            started_at: {
+              gte: today,
+              lt: tomorrow,
+            },
+          },
+        },
+      },
+    });
+  }
 }

@@ -17,8 +17,11 @@ model users {
   birth_date         DateTime?       @db.Date
   languagePreference String?
   refreshToken       String?
-  createdAt          DateTime        @default(now())
   fcmToken           String?
+  current_streak     Int             @default(0)
+  longest_streak     Int             @default(0)
+  last_active_date   DateTime?
+  createdAt          DateTime        @default(now())
   status             String          @default("active")
   children           children[]
   conversations      conversations[]

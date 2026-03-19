@@ -6,13 +6,13 @@ export class AdminAuthRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async findAdminByEmail(email: string) {
-    return this.prisma.admin.findUnique({
+    return await this.prisma.admin.findUnique({
       where: { email },
     });
   }
 
   async updateRefreshToken(adminId: string, refreshToken: string) {
-    return this.prisma.admin.update({
+    return await this.prisma.admin.update({
       where: { id: adminId },
       data: { refreshToken },
     });
