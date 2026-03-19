@@ -13,7 +13,7 @@ import { JwtHelper } from 'src/common/utils/jwtHelper';
         (() => {
           throw new Error('JWT_SECRET environment variable is required');
         })(),
-      signOptions: { expiresIn: '15m' },
+      signOptions: { expiresIn: '1h' },
     }),
   ],
   controllers: [AuthController],

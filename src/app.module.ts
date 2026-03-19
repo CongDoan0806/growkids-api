@@ -17,6 +17,9 @@ import { MiniSongModule } from './modules/experiences/mini-song/mini-song.module
 import { VisualScheduleModule } from './modules/visual-schedules/visual-schedule.module';
 import { FlexibleScheduleModule } from './modules/flexible-schedule-suggest/flexible-schedule.module';
 import { SentenceLibraryModule } from './modules/sentence-library/sentence-library.module';
+import { UserManagerModule } from './modules/admins/user-management/user-management.module';
+import { AdminAuthModule } from './modules/admins/auth/admin-auth.module';
+import { UserModule } from './modules/users/user.module';
 
 @Module({
   imports: [
@@ -34,6 +37,9 @@ import { SentenceLibraryModule } from './modules/sentence-library/sentence-libra
     VisualScheduleModule,
     FlexibleScheduleModule,
     SentenceLibraryModule,
+    UserManagerModule,
+    AdminAuthModule,
+    UserModule,
     ThrottlerModule.forRoot([
       {
         ttl: parseInt(process.env.RATE_LIMIT_TTL ?? '60000'),
