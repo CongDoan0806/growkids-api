@@ -21,6 +21,7 @@ import { UserManagerModule } from './modules/admins/user-management/user-managem
 import { AdminAuthModule } from './modules/admins/auth/admin-auth.module';
 import { UserModule } from './modules/users/user.module';
 import { AdminMiniSongModule } from './modules/admins/learning-content-manage/learning-content-manage.module';
+import { DashBoardModule } from './modules/admins/system-dashboards/system-dashboard.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { AdminMiniSongModule } from './modules/admins/learning-content-manage/le
     AdminAuthModule,
     UserModule,
     AdminMiniSongModule,
+    DashBoardModule,
     ThrottlerModule.forRoot([
       {
         ttl: parseInt(process.env.RATE_LIMIT_TTL ?? '60000'),

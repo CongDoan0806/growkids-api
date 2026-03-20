@@ -12,16 +12,16 @@ model users {
   fullName           String
   email              String          @unique
   password           String
-  avatar_url         String?         @db.VarChar(255)
-  gender             String?         @db.VarChar(10)
-  birth_date         DateTime?       @db.Date
   languagePreference String?
   refreshToken       String?
-  fcmToken           String?
-  current_streak     Int             @default(0)
-  longest_streak     Int             @default(0)
+  current_streak     Int       @default(0)
+  longest_streak     Int       @default(0)
   last_active_date   DateTime?
   createdAt          DateTime        @default(now())
+  fcmToken           String?
+  avatar_url         String?         @db.VarChar(255)
+  birth_date         DateTime?       @db.Date
+  gender             String?         @db.VarChar(10)
   status             String          @default("active")
   children           children[]
   conversations      conversations[]
