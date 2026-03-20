@@ -20,6 +20,7 @@ import { SentenceLibraryModule } from './modules/sentence-library/sentence-libra
 import { UserManagerModule } from './modules/admins/user-management/user-management.module';
 import { AdminAuthModule } from './modules/admins/auth/admin-auth.module';
 import { UserModule } from './modules/users/user.module';
+import { AdminMiniSongModule } from './modules/admins/learning-content-manage/learning-content-manage.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { UserModule } from './modules/users/user.module';
     UserManagerModule,
     AdminAuthModule,
     UserModule,
+    AdminMiniSongModule,
     ThrottlerModule.forRoot([
       {
         ttl: parseInt(process.env.RATE_LIMIT_TTL ?? '60000'),
