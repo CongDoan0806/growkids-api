@@ -1,5 +1,5 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
-import * as ytdl from '@distube/ytdl-core';
+import * as play from 'play-dl';
 import { AdminMiniSongRepository } from './learning-content-manage.repository';
 import { AdminCreateFullSongDto } from './dto/admin-minisong.dto';
 
@@ -17,12 +17,12 @@ export class AdminMiniSongService {
     manualText?: string,
   ) {
     try {
-      const info = await ytdl.getBasicInfo(videoUrl);
+      const videoInfo = await play.video_info(videoUrl);
 
       const basicData = {
-        title: info.videoDetails.title,
-        thumbnail: info.videoDetails.thumbnails[0]?.url || '',
-        duration: parseInt(info.videoDetails.lengthSeconds),
+        title: videoInfo.video_details.title,
+        thumbnail: videoInfo.video_details.thumbnails[0]?.url || '',
+        duration: videoInfo.video_details.durationInSec,
         category: category || 'English for Kids',
         video_url: videoUrl,
       };
@@ -59,12 +59,16 @@ export class AdminMiniSongService {
           }
         }
       }
+
       return {
         success: true,
         data: { ...basicData, lyrics },
       };
     } catch (error) {
-      throw new BadRequestException(`Extraction error:${error.message}`);
+      console.error('PLAY-DL FETCH ERROR:', error.message);
+      throw new BadRequestException(
+        `Unable to retrieve video information: ${error.message}`,
+      );
     }
   }
 
