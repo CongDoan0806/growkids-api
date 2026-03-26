@@ -130,8 +130,8 @@ IMPORTANT RULES:
 - Promote kindness, friendship, curiosity, and learning
 - Keep sentences short and clear
 - Make story suitable for read-aloud audio narration
-- Split the story into short segments (5-7 segments total)
-- Each segment should be 2-5 sentences only
+- Split the story into short segments (2 segments total)
+- Each segment should be 2-3 sentences only
 - Some segments should include simple interactions
 
 INTERACTION TYPES ALLOWED:
